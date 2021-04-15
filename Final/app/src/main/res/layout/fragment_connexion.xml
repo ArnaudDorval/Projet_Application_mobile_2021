@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.connexion.ConnexionFragment">
+
+    <ImageView
+        android:id="@+id/connexion_backgroud"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/connexion_background"
+        tools:layout_editor_absoluteX="-29dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="112dp"
+        android:layout_height="120dp"
+        android:src="@drawable/ic_australian_kangaroo_logo"
+        android:layout_marginTop="90.74dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewAppNam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19.56dp"
+        android:layout_marginBottom="20dp"
+        android:text="Kungry"
+        android:textColor="#FFFFFF"
+        android:textSize="25sp"
+        app:layout_constraintTop_toBottomOf="@id/imageView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/textViewCon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50.3dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="Connexion"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAppNam"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/loginEmail"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="10dp"
+        android:background="#FFFFFF"
+        android:drawableLeft="@drawable/ic_np_email"
+        android:drawablePadding="12dp"
+        android:ems="10"
+        android:hint="Courriel"
+        android:inputType="textEmailAddress"
+        android:paddingLeft="12dp"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewCon" />
+
+    <EditText
+        android:id="@+id/loginPwd"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="#FFFFFF"
+        android:drawableLeft="@drawable/ic_np_email"
+        android:drawablePadding="12dp"
+        android:ems="10"
+        android:hint="Courriel"
+        android:inputType="textEmailAddress"
+        android:paddingLeft="12dp"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@+id/loginEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewCon" />
+</androidx.constraintlayout.widget.ConstraintLayout>
