@@ -1,19 +1,14 @@
-package ca.ulaval.ima.mp.ui.home
+package ca.ulaval.ima.mp.ui.liste
 
-import android.content.Context
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ca.ulaval.ima.mp.R
@@ -25,9 +20,8 @@ import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.IOException
 
-class HomeFragment : Fragment() {
+class ListeFragment : Fragment() {
 
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var adapter: RestaurantsRecyclerViewAdapter
@@ -35,18 +29,17 @@ class HomeFragment : Fragment() {
     lateinit var restaurantLightList : List<RestaurantLight>
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
+        val root = inflater.inflate(R.layout.fragment_liste, container, false)
 
-        mRecyclerView = root.findViewById(R.id.recycler_view_Restorants_List)
+        mRecyclerView = root.findViewById(R.id.recycler_view_Liste)
+        mRecyclerView.layoutManager = LinearLayoutManager(this.context)
 
         getListOfRestaurant()
-  /*      adapter.setOnCountryClickListener {
 
-        }*/
 
 
         return root
@@ -61,10 +54,12 @@ class HomeFragment : Fragment() {
             ) {
                 if (response.isSuccessful) {
                     response.body()?.content?.results?.let {
-                        Log.d("Test:", " Good !!!!!!!!!!!!!!!!")
+                        Log.d("Test:", it.size.toString())
+                        restaurantLightList = it
+                        adapter = RestaurantsRecyclerViewAdapter(restaurantLightList)
+                        mRecyclerView.adapter = adapter
                     }
                 }
-                Log.d("Error", "Not Good !!!")
             }
 
             override fun onFailure(
@@ -88,15 +83,10 @@ class HomeFragment : Fragment() {
             return ViewHolder(view)
         }
 
-        override fun getItemViewType(position: Int): Int {
-            // Just as an example, return 0 or 2 depending on position
-            // Note that unlike in ListView adapters, types don't have to be contiguous
-            val restaurant = restaurantLightList[position]
-            return 1
-        }
 
         override fun onBindViewHolder(holder: ViewHolder, i: Int) {
             val restaurant = restaurantLightList[i]
+            holder.mItem = restaurant
             holder.mRestaurantName.text = restaurant.name
             //holder.mCuisineType.text = restaurant.cuisine
             Picasso.get().load(restaurant.image).into(holder.mImageView)
@@ -113,8 +103,9 @@ class HomeFragment : Fragment() {
 
         inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
             val mRestaurantName: TextView =  mView.findViewById(R.id.restaurantNameTextView)
-            val mCuisineType: TextView =  mView.findViewById(R.id.cuisineTextView)
+            //val mCuisineType: TextView =  mView.findViewById(R.id.cuisineTextView)
             val mImageView: ImageView = mView.findViewById(R.id.imageView)
+            var mItem: RestaurantLight? = null
 
         }
 
@@ -130,4 +121,5 @@ class HomeFragment : Fragment() {
             private const val LARGE_CELL_TYPE = 1
         }
     }
+
 }
