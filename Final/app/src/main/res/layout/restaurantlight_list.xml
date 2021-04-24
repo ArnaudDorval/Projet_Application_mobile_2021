@@ -73,7 +73,7 @@
                 android:textStyle="bold"
                 android:text="Kilométrage: " />
 
-            android:textStyle="bold"
+
             <TextView
                 android:id="@+id/textKilo"
                 android:layout_width="wrap_content"
