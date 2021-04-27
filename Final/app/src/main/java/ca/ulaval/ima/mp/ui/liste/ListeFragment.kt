@@ -102,18 +102,15 @@ class ListeFragment : Fragment() {
         }
 
         inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-            val mRestaurantName: TextView =  mView.findViewById(R.id.restaurantNameTextView)
-            //val mCuisineType: TextView =  mView.findViewById(R.id.cuisineTextView)
+            val mRestaurantName: TextView =  mView.findViewById(R.id.nameTextView)
+            //val mCuisineType: TextView =  mView.findViewById(R.id)
             val mImageView: ImageView = mView.findViewById(R.id.imageView)
             var mItem: RestaurantLight? = null
-
         }
 
         fun setOnCountryClickListener(onItemClickListener: ((RestaurantLight) -> Unit)) {
             this.onItemClickListener = onItemClickListener
         }
-
-
 
         companion object {
             private const val ASSETS_DIR = "images/"
