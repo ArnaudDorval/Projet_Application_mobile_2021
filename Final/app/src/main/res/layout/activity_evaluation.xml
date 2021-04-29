@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="#FAFAFA"
+    tools:context=".ui.EvaluationActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FAFAFA"
+            android:paddingBottom="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            tools:context=".ui.EvaluationActivity">
+
+            <TextView
+                android:id="@+id/EvalTitileTextVIew"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginTop="20dp"
+                android:fontFamily="@fonts/sf_ui_display_bold"
+                android:text="Évaluation "
+                android:textColor="@color/blackText"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RatingBar
+                android:id="@+id/EvalRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:numStars="5"
+                android:stepSize="1.0"
+                android:rating="3.0"
+                app:layout_constraintStart_toStartOf="@+id/EvalTitileTextVIew"
+                app:layout_constraintTop_toBottomOf="@+id/EvalTitileTextVIew" />
+
+            <TextView
+                android:id="@+id/CommentTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@fonts/sf_ui_display_bold"
+                android:text="Commentaire "
+                android:textColor="@color/blackText"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="@+id/EvalRatingBar"
+                app:layout_constraintTop_toBottomOf="@id/EvalRatingBar" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:fontFamily="@fonts/sf_ui_display_light"
+                android:text="(Facultatif)"
+                android:textColor="@color/blackText"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/CommentTitleTextView"
+                app:layout_constraintStart_toEndOf="@id/CommentTitleTextView"
+                app:layout_constraintTop_toTopOf="@+id/CommentTitleTextView" />
+
+            <EditText
+                android:id="@+id/CommentEditText"
+                android:layout_width="match_parent"
+                android:maxWidth="250dp"
+                android:layout_height="165dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginRight="25dp"
+                android:background="#FFFFFF"
+                android:ems="10"
+                android:maxLength="2000"
+                android:gravity="top|start"
+                android:hint="Laissez un commentaire"
+                android:text=""
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/CommentTitleTextView"
+                app:layout_constraintTop_toBottomOf="@id/CommentTitleTextView" />
+
+            <TextView
+                android:id="@+id/addTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@fonts/sf_ui_display_semibold"
+                android:text="Ajouter une photo"
+                android:textColor="@color/blackText"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="@+id/CommentEditText"
+                app:layout_constraintTop_toBottomOf="@id/CommentEditText" />
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:fontFamily="@fonts/sf_ui_display_light"
+                android:text="(Facultatif)"
+                android:textColor="@color/blackText"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/addTitleTextView"
+                app:layout_constraintStart_toEndOf="@id/addTitleTextView"
+                app:layout_constraintTop_toTopOf="@+id/addTitleTextView" />
+
+            <ImageButton
+                android:id="@+id/addImageButton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="20dp"
+                android:background="#0000"
+                android:src="@drawable/add_button_shape"
+                app:layout_constraintStart_toStartOf="@+id/addTitleTextView"
+                app:layout_constraintTop_toBottomOf="@id/addTitleTextView" />
+
+            <Button
+                android:id="@+id/SoumettreButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/soumettre_button"
+                android:fontFamily="@fonts/sf_ui_display_heavy"
+                android:text="Soumettre"
+                android:textColor="#FFFFFF"
+                android:textSize="19dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addImageButton" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
