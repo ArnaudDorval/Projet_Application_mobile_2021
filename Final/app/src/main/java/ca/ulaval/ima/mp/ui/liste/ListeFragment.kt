@@ -1,5 +1,6 @@
 package ca.ulaval.ima.mp.ui.liste
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ca.ulaval.ima.mp.R
@@ -16,17 +16,18 @@ import ca.ulaval.ima.mp.model.PaginatedResultSerializer
 import ca.ulaval.ima.mp.model.RestaurantLight
 import ca.ulaval.ima.mp.networking.KungryAPI
 import ca.ulaval.ima.mp.networking.NetworkCenter
+import ca.ulaval.ima.mp.ui.RestaurantDetailsActivity
+import ca.ulaval.ima.mp.ui.parcelables.ParcelDataAPI
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class ListeFragment : Fragment() {
-
     private lateinit var mRecyclerView: RecyclerView
-    private lateinit var adapter: RestaurantsRecyclerViewAdapter
+    private lateinit var recyclerviewadapter: RestaurantsRecyclerViewAdapter
     val imaNetworkCenter = NetworkCenter.buildService(KungryAPI::class.java)
-    lateinit var restaurantLightList : List<RestaurantLight>
+    var restaurantLightList : List<RestaurantLight> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,8 +57,14 @@ class ListeFragment : Fragment() {
                     response.body()?.content?.results?.let {
                         Log.d("Test:", it.size.toString())
                         restaurantLightList = it
-                        adapter = RestaurantsRecyclerViewAdapter(restaurantLightList)
-                        mRecyclerView.adapter = adapter
+                        recyclerviewadapter = RestaurantsRecyclerViewAdapter(restaurantLightList)
+                        mRecyclerView.adapter = recyclerviewadapter
+                        recyclerviewadapter.setOnClickListener {
+                            val restoID = ParcelDataAPI(it.id,it.location)
+                            val intent = Intent(context, RestaurantDetailsActivity::class.java)
+                            intent.putExtra("restoID", restoID);
+                            startActivity(intent)
+                        }
                     }
                 }
             }
@@ -108,7 +115,7 @@ class ListeFragment : Fragment() {
             var mItem: RestaurantLight? = null
         }
 
-        fun setOnCountryClickListener(onItemClickListener: ((RestaurantLight) -> Unit)) {
+        fun setOnClickListener(onItemClickListener: ((RestaurantLight) -> Unit)) {
             this.onItemClickListener = onItemClickListener
         }
 
