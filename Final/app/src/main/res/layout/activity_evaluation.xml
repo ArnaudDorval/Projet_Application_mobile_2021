@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="#FAFAFA"
+    android:background="@color/white"
     tools:context=".ui.EvaluationActivity">
 
     <ScrollView
@@ -16,14 +16,14 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FAFAFA"
+            android:background="@color/white"
             android:paddingBottom="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             tools:context=".ui.EvaluationActivity">
 
             <TextView
-                android:id="@+id/EvalTitileTextVIew"
+                android:id="@+id/EvalTitleTextVIew"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -43,9 +43,9 @@
                 android:layout_marginTop="20dp"
                 android:numStars="5"
                 android:stepSize="1.0"
-                android:rating="3.0"
-                app:layout_constraintStart_toStartOf="@+id/EvalTitileTextVIew"
-                app:layout_constraintTop_toBottomOf="@+id/EvalTitileTextVIew" />
+                android:rating="0.0"
+                app:layout_constraintStart_toStartOf="@+id/EvalTitleTextVIew"
+                app:layout_constraintTop_toBottomOf="@+id/EvalTitleTextVIew" />
 
             <TextView
                 android:id="@+id/CommentTitleTextView"

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gris_shy"
+    tools:context=".ui.moncompte.MonCompteFragment">
+
+    <TextView
+        android:id="@+id/monCompte_monCompteTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/sf_ui_display_bold"
+        android:text="Mon compte"
+        android:textColor="@color/blackText"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/monCompte_NomTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/sf_ui_display_medium"
+        android:text="Nom"
+        android:textColor="@color/blackText"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/monCompte_monCompteTitleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/monCompte_monCompteTitleTextView" />
+
+    <TextView
+        android:id="@+id/monCompte_nomProfilTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/sf_ui_display_light"
+        android:text="John Doe"
+        android:textColor="@color/blackText"
+        app:layout_constraintStart_toStartOf="@+id/monCompte_NomTitleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/monCompte_NomTitleTextView" />
+
+    <TextView
+        android:id="@+id/monCompte_emailTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/sf_ui_display_medium"
+        android:text="Courriel"
+        android:textColor="@color/blackText"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/monCompte_nomProfilTextView"
+        app:layout_constraintTop_toBottomOf="@+id/monCompte_nomProfilTextView" />
+
+    <TextView
+        android:id="@+id/monCompte_EmailTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/sf_ui_display_light"
+        android:text="johndoe@mail.com"
+        android:textColor="@color/blackText"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/monCompte_emailTitleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/monCompte_emailTitleTextView" />
+
+    <TextView
+        android:id="@+id/monCompte_nbreEvalTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/sf_ui_display_medium"
+        android:text="Nombre d'évaluations attribuées"
+        android:textColor="@color/blackText"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/monCompte_EmailTextView"
+        app:layout_constraintTop_toBottomOf="@+id/monCompte_EmailTextView" />
+
+    <TextView
+        android:id="@+id/monCompte_nbreEvalTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/sf_ui_display_light"
+        android:text="2"
+        android:textColor="@color/blackText"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/monCompte_nbreEvalTitleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/monCompte_nbreEvalTitleTextView" />
+
+    <Button
+        android:id="@+id/monCompte_profilButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/eval_button"
+        android:fontFamily="@font/sf_ui_display_heavy"
+        android:text="Déconnexion"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/monCompte_nbreEvalTextView" />
+</androidx.constraintlayout.widget.ConstraintLayout>

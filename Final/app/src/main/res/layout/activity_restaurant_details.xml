@@ -218,7 +218,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/monCompte_monCompteTitleTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/sf_ui_display_medium"
@@ -227,7 +227,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/textView4"
+                        android:id="@+id/monCompte_NomTitleTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/sf_ui_display_medium"
@@ -245,7 +245,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/textView6"
+                        android:id="@+id/monCompte_emailTitleTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/sf_ui_display_medium"
@@ -263,7 +263,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/textView8"
+                        android:id="@+id/monCompte_nbreEvalTitleTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/sf_ui_display_medium"
