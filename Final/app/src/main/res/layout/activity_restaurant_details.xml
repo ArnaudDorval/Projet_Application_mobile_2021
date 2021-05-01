@@ -10,11 +10,13 @@
         android:id="@+id/restaurantDetails_nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="@color/white"
-        android:layout_alignParentTop="true"
         android:layout_above="@id/connexionConstraintLayout"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="-118dp"
+        android:layout_marginBottom="118dp"
+        android:backgroundTint="@color/white"
         app:layout_constraintBottom_toTopOf="@id/connexionConstraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -23,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="50dp">
+
             <ImageView
                 android:id="@+id/detailsImageView"
                 android:layout_width="402dp"
@@ -40,7 +43,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="25dp"
-                android:fontFamily="@fonts/sf_ui_display_bold"
+                android:fontFamily="@font/sf_ui_display_bold"
                 android:text="Nom du restaurant"
                 android:textColor="@color/black"
                 android:textSize="20sp"
@@ -52,12 +55,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:fontFamily="@fonts/sf_ui_display_light"
+                android:fontFamily="@font/sf_ui_display_light"
                 android:text="Type de restaurant"
                 android:textColor="@color/blackText"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/restaurantDetails_nameRestTextView"
                 app:layout_constraintTop_toBottomOf="@+id/restaurantDetails_nameRestTextView" />
+
             <TextView
                 android:id="@+id/restaurantDetails_kmDetailsTextView"
                 android:layout_width="wrap_content"
@@ -65,7 +69,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@fonts/sf_ui_display_light"
+                android:fontFamily="@font/sf_ui_display_light"
                 android:text="km"
                 android:textSize="12sp"
                 app:layout_constraintStart_toEndOf="@+id/restaurantDetails_pinPointImageView"
@@ -80,22 +84,24 @@
                 app:layout_constraintTop_toTopOf="@+id/restaurantDetails_kmDetailsTextView"
                 app:srcCompat="@drawable/ic_icone_pin"
                 tools:ignore="VectorDrawableCompat" />
+
             <RatingBar
                 android:id="@+id/restaurantDetails_ratingsRatingBar"
                 style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
-                app:layout_constraintTop_toBottomOf="@+id/restaurantDetails_typeRestTextView"
-                app:layout_constraintStart_toEndOf="@+id/restaurantDetails_kmDetailsTextView" />
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toEndOf="@+id/restaurantDetails_kmDetailsTextView"
+                app:layout_constraintTop_toBottomOf="@+id/restaurantDetails_typeRestTextView" />
+
             <TextView
                 android:id="@+id/restaurantDetails_nbrReviewsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:fontFamily="@fonts/sf_ui_display_light"
+                android:fontFamily="@font/sf_ui_display_light"
                 android:text="(nbr)"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@+id/restaurantDetails_framelayoutphoneNbr"
@@ -114,9 +120,9 @@
                     android:id="@+id/restaurantDetails_phoneImageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="17dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="20dp"
+                    android:layout_marginTop="17dp"
                     app:layout_constraintStart_toStartOf="@+id/restaurantDetails_pinPointImageView"
                     app:layout_constraintTop_toBottomOf="@+id/restaurantDetails_pinPointImageView"
                     app:srcCompat="@drawable/ic_np_phone"
@@ -129,7 +135,7 @@
                     android:layout_marginStart="55dp"
                     android:layout_marginLeft="55dp"
                     android:layout_marginTop="17dp"
-                    android:fontFamily="@fonts/sf_ui_display_light"
+                    android:fontFamily="@font/sf_ui_display_light"
                     android:text="(555) 525-9381"
                     android:textColor="@color/blackText"
                     android:textSize="16sp"
@@ -143,10 +149,10 @@
                 android:layout_width="335dp"
                 android:layout_height="52dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="24dp"
                 android:background="@color/gris"
-                app:layout_constraintTop_toBottomOf="@+id/restaurantDetails_framelayoutphoneNbr"
-                app:layout_constraintStart_toStartOf="@+id/restaurantDetails_framelayoutphoneNbr">
+                app:layout_constraintStart_toStartOf="@+id/restaurantDetails_framelayoutphoneNbr"
+                app:layout_constraintTop_toBottomOf="@+id/restaurantDetails_framelayoutphoneNbr">
+
                 <ImageView
                     android:id="@+id/restaurantDetails_lienImageView"
                     android:layout_width="wrap_content"
@@ -158,6 +164,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/restaurantDetails_phoneImageView"
                     app:srcCompat="@drawable/ic_np_link"
                     tools:ignore="VectorDrawableCompat" />
+
                 <TextView
                     android:id="@+id/restaurantDetails_siteWebTextView"
                     android:layout_width="wrap_content"
@@ -165,7 +172,7 @@
                     android:layout_marginStart="55dp"
                     android:layout_marginLeft="55dp"
                     android:layout_marginTop="17dp"
-                    android:fontFamily="@fonts/sf_ui_display_light"
+                    android:fontFamily="@font/sf_ui_display_light"
                     android:text="Site web de l'entreprise"
                     android:textColor="@color/blackText"
                     android:textSize="16sp" />
@@ -176,7 +183,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@fonts/sf_ui_display_semibold"
+                android:fontFamily="@font/sf_ui_display_semibold"
                 android:text="Heures d'ouvertures"
                 android:textColor="@color/blackText"
                 android:textSize="16sp"
@@ -205,64 +212,64 @@
                         android:id="@+id/textView2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/sf_ui_display_medium"
                         android:text="Lundi"
-                        android:fontFamily="@fonts/sf_ui_display_medium"
                         android:textColor="@color/blackText"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/textView3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@fonts/sf_ui_display_medium"
+                        android:fontFamily="@font/sf_ui_display_medium"
+                        android:text="Mardi"
                         android:textColor="@color/blackText"
-                        android:textSize="14sp"
-                        android:text="Mardi"/>
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/textView4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@fonts/sf_ui_display_medium"
+                        android:fontFamily="@font/sf_ui_display_medium"
+                        android:text="Mercredi"
                         android:textColor="@color/blackText"
-                        android:textSize="14sp"
-                        android:text="Mercredi"/>
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/textView5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@fonts/sf_ui_display_medium"
+                        android:fontFamily="@font/sf_ui_display_medium"
+                        android:text="Jeudi"
                         android:textColor="@color/blackText"
-                        android:textSize="14sp"
-                        android:text="Jeudi" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/textView6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@fonts/sf_ui_display_medium"
+                        android:fontFamily="@font/sf_ui_display_medium"
+                        android:text="Vendredi"
                         android:textColor="@color/blackText"
-                        android:textSize="14sp"
-                        android:text="Vendredi"/>
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/textView7"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@fonts/sf_ui_display_medium"
+                        android:fontFamily="@font/sf_ui_display_medium"
+                        android:text="Samedi"
                         android:textColor="@color/blackText"
-                        android:textSize="14sp"
-                        android:text="Samedi"/>
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/textView8"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@fonts/sf_ui_display_medium"
+                        android:fontFamily="@font/sf_ui_display_medium"
+                        android:text="Dimanche"
                         android:textColor="@color/blackText"
-                        android:textSize="14sp"
-                        android:text="Dimanche"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -279,7 +286,7 @@
                         android:id="@+id/monHourTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@fonts/sf_ui_display_light"
+                        android:fontFamily="@font/sf_ui_display_light"
                         android:text="Inconnu"
                         android:textColor="@color/blackText"
                         android:textSize="14sp" />
@@ -288,55 +295,55 @@
                         android:id="@+id/tueHourTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@fonts/sf_ui_display_light"
+                        android:fontFamily="@font/sf_ui_display_light"
+                        android:text="Inconnu"
                         android:textColor="@color/blackText"
-                        android:textSize="14sp"
-                        android:text="Inconnu" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/wedHourTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@fonts/sf_ui_display_light"
+                        android:fontFamily="@font/sf_ui_display_light"
+                        android:text="Inconnu"
                         android:textColor="@color/blackText"
-                        android:textSize="14sp"
-                        android:text="Inconnu" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/thuHourTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@fonts/sf_ui_display_light"
+                        android:fontFamily="@font/sf_ui_display_light"
+                        android:text="Inconnu"
                         android:textColor="@color/blackText"
-                        android:textSize="14sp"
-                        android:text="Inconnu" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/FriHourTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@fonts/sf_ui_display_light"
+                        android:fontFamily="@font/sf_ui_display_light"
+                        android:text="Inconnu"
                         android:textColor="@color/blackText"
-                        android:textSize="14sp"
-                        android:text="Inconnu" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/satHourTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@fonts/sf_ui_display_light"
+                        android:fontFamily="@font/sf_ui_display_light"
+                        android:text="Inconnu"
                         android:textColor="@color/blackText"
-                        android:textSize="14sp"
-                        android:text="Inconnu" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/sunHourTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@fonts/sf_ui_display_light"
+                        android:fontFamily="@font/sf_ui_display_light"
+                        android:text="Inconnu"
                         android:textColor="@color/blackText"
-                        android:textSize="14sp"
-                        android:text="Inconnu" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -346,7 +353,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@fonts/sf_ui_display_semibold"
+                android:fontFamily="@font/sf_ui_display_semibold"
                 android:text="Lieu"
                 android:textColor="@color/blackText"
                 android:textSize="16sp"
@@ -372,7 +379,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@fonts/sf_ui_display_semibold"
+                android:fontFamily="@font/sf_ui_display_semibold"
                 android:text="Évaluations"
                 android:textColor="@color/blackText"
                 android:textSize="16sp"
@@ -384,13 +391,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@fonts/sf_ui_display_light"
+                android:fontFamily="@font/sf_ui_display_light"
                 android:text="(99)"
                 android:textColor="@color/blackText"
                 android:textSize="12sp"
                 app:layout_constraintLeft_toRightOf="@+id/ÉvalauationsTiltleTextView"
                 app:layout_constraintStart_toEndOf="@+id/ÉvalauationsTiltleTextView"
-                app:layout_constraintTop_toBottomOf="@+id/restaurantDetails_mapView"/>
+                app:layout_constraintTop_toBottomOf="@+id/restaurantDetails_mapView" />
 
             <ca.ulaval.ima.mp.utils.NestedListView
                 android:id="@+id/shortReviewListView"
@@ -435,7 +442,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="7dp"
                     android:layout_marginLeft="7dp"
-                    android:fontFamily="@fonts/sf_ui_display_semibold"
+                    android:fontFamily="@font/sf_ui_display_semibold"
                     android:text="Voir plus d'évaluations"
                     android:textColor="@color/blackText"
                     android:textSize="16sp"
@@ -492,7 +499,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/login_button"
-            android:fontFamily="@fonts/sf_ui_display_heavy"
+            android:fontFamily="@font/sf_ui_display_heavy"
             android:text="Connexion"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -526,7 +533,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/eval_button"
-            android:fontFamily="@fonts/sf_ui_display_heavy"
+            android:fontFamily="@font/sf_ui_display_heavy"
             android:text="Laisser une évaluation"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
