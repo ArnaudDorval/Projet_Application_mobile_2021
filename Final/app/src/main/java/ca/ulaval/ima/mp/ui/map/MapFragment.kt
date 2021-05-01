@@ -16,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import ca.ulaval.ima.mp.R
 import com.google.android.gms.maps.GoogleMap
@@ -51,8 +52,21 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         unselectedLayout = root.findViewById(R.id.unselectedLayout)
 
         selectedLayout.setVisibility(View.GONE)
+        locationManager = getActivity()?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+        /**
+        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED) {
+            myMap?.setMyLocationEnabled(true);
+            myMap?.getUiSettings()?.setMyLocationButtonEnabled(true);
+        } else {
+            Toast.makeText(requireContext(), "get permission map sauce", Toast.LENGTH_LONG).show();
+        }*/
+
         getLocation()
-        getLocation()
+        //getLocation()
 
         return root
     }
@@ -69,7 +83,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     @SuppressLint("MissingPermission")
     private fun getLocation() {
-        locationManager = getActivity()?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
         hasGPS = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         hasNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
         if (hasGPS || hasNetwork){
@@ -134,10 +148,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(p0: GoogleMap?) {
-        //Clear the list
-
-        //Clear the list
-
 
         MapsInitializer.initialize(context)
         myMap = p0
