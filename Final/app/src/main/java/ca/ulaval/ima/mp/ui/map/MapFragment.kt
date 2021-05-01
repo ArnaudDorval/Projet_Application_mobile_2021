@@ -14,15 +14,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import ca.ulaval.ima.mp.R
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.MapsInitializer
+import com.google.android.gms.maps.OnMapReadyCallback
 
 
-class MapFragment : Fragment() {
+class MapFragment : Fragment(), OnMapReadyCallback {
 
+    private var mapView: MapView? = null
+    private var myMap: GoogleMap? = null
     lateinit var locationManager: LocationManager
     private var hasGPS = true
     private var hasNetwork = false
@@ -32,10 +37,14 @@ class MapFragment : Fragment() {
     private var locationGps : Location? = null
     private var locationNetWork : Location? = null
 
+    private lateinit var root : View
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        val root = inflater.inflate(R.layout.fragment_map, container, false)
+        root = inflater.inflate(R.layout.fragment_map, container, false)
+
 
         cardView = root.findViewById(R.id.cardView)
         selectedLayout = root.findViewById(R.id.selectedLayout)
@@ -45,8 +54,17 @@ class MapFragment : Fragment() {
         getLocation()
         getLocation()
 
-
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mapView = view.findViewById(R.id.mapView)
+        if (mapView != null) {
+            mapView!!.onCreate(null)
+            mapView!!.onResume()
+            mapView!!.getMapAsync(this)
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -56,15 +74,21 @@ class MapFragment : Fragment() {
         hasNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
         if (hasGPS || hasNetwork){
             if(hasGPS){
-                Log.d("Validation GPS : ", "Has GPS" )
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0f, object : LocationListener{
+                Log.d("Validation GPS : ", "Has GPS")
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0f, object : LocationListener {
                     override fun onLocationChanged(location: Location) {
-                        if(location != null){
+                        if (location != null) {
                             locationGps = location
                             Log.d("Latidude GPS : ", locationGps!!.latitude.toString())
                             Log.d("Logitude GPS : ", locationGps!!.longitude.toString())
                         }
                     }
+
+                    override fun onProviderEnabled(provider: String) {}
+
+                    override fun onProviderDisabled(provider: String) {}
+
+                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
 
                 })
                 val localGpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
@@ -74,13 +98,19 @@ class MapFragment : Fragment() {
             }
 
             if(hasNetwork){
-                Log.d("Validation Network : ", "Has NetWork" )
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0f, object : LocationListener{
+                Log.d("Validation Network : ", "Has NetWork")
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0f, object : LocationListener {
                     override fun onLocationChanged(location: Location) {
-                        if(location != null){
+                        if (location != null) {
                             locationNetWork = location
                         }
                     }
+
+                    override fun onProviderEnabled(provider: String) {}
+
+                    override fun onProviderDisabled(provider: String) {}
+
+                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
 
                 })
                 val localNetworkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
@@ -103,6 +133,53 @@ class MapFragment : Fragment() {
         }
     }
 
+    override fun onMapReady(p0: GoogleMap?) {
+        //Clear the list
+
+        //Clear the list
+
+
+        MapsInitializer.initialize(context)
+        myMap = p0
+
+        //create listner to display restaurant summary
+        myMap!!.setOnMarkerClickListener { marker ->
+            var selectedRestaurantId = 0
+            unselectedLayout.visibility = View.GONE
+            selectedLayout.visibility = View.VISIBLE
+
+            false
+        }
+
+        if (getActivity()?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) } != PackageManager.PERMISSION_GRANTED &&
+                getActivity()?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_COARSE_LOCATION) } != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(context, "Veuillez activer la localisation GPS de votre appareil", Toast.LENGTH_SHORT).show()
+            return
+        } else {
+            //If we have permission, we get the location
+
+            //If location is changing, update location
+            val locationListener: LocationListener = object : LocationListener {
+                override fun onLocationChanged(myLocation: Location) {
+                    //update location informations
+                }
+
+                override fun onProviderEnabled(provider: String) {}
+
+                override fun onProviderDisabled(provider: String) {}
+
+                override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+            }
+
+            //Get phone location
+
+            //Get phone location
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10f, locationListener)
+
+
+        }
+
+    }
 
 
 }
