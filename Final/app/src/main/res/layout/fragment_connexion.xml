@@ -15,77 +15,313 @@
         tools:layout_editor_absoluteX="-29dp"
         tools:layout_editor_absoluteY="16dp" />
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="112dp"
-        android:layout_height="120dp"
-        android:src="@drawable/ic_australian_kangaroo_logo"
-        android:layout_marginTop="90.74dp"
-        app:layout_constraintEnd_toEndOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/loginLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
 
-    <TextView
-        android:id="@+id/textViewAppNam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19.56dp"
-        android:layout_marginBottom="20dp"
-        android:text="Kungry"
-        android:textColor="#FFFFFF"
-        android:textSize="25sp"
-        app:layout_constraintTop_toBottomOf="@id/imageView4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="112dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_australian_kangaroo_logo"
+            app:layout_constraintBottom_toTopOf="@+id/textView10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-    <TextView
-        android:id="@+id/textViewCon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50.3dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:text="Connexion"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAppNam"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/sf_ui_display_bold"
+            android:text="Kungry"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
-    <EditText
-        android:id="@+id/loginEmail"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="10dp"
-        android:background="#FFFFFF"
-        android:drawableLeft="@drawable/ic_np_email"
-        android:drawablePadding="12dp"
-        android:ems="10"
-        android:hint="Courriel"
-        android:inputType="textEmailAddress"
-        android:paddingLeft="12dp"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textViewCon" />
+        <EditText
+            android:id="@+id/loginEmail"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/connexion_loginA"
+            android:drawableLeft="@drawable/ic_np_email"
+            android:drawablePadding="12dp"
+            android:ems="10"
+            android:fontFamily="@font/sf_ui_display_light"
+            android:hint="Courriel"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="12dp"
+            android:textColor="@color/blackText"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/loginPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView" />
 
-    <EditText
-        android:id="@+id/loginPwd"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:background="#FFFFFF"
-        android:drawableLeft="@drawable/ic_np_email"
-        android:drawablePadding="12dp"
-        android:ems="10"
-        android:hint="Courriel"
-        android:inputType="textEmailAddress"
-        android:paddingLeft="12dp"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@+id/loginEmail"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textViewCon" />
+        <EditText
+            android:id="@+id/loginPassword"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/connexion_loginA"
+            android:drawableLeft="@drawable/ic_np_password_2630646_000000"
+            android:drawablePadding="12dp"
+            android:ems="10"
+            android:fontFamily="@font/sf_ui_display_light"
+            android:hint="Mot de passe"
+            android:inputType="textPassword"
+            android:paddingLeft="12dp"
+            android:textColor="@color/blackText"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/loginButton"
+            app:layout_constraintEnd_toEndOf="@+id/loginEmail"
+            app:layout_constraintStart_toStartOf="@+id/loginEmail" />
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/login_button"
+            android:fontFamily="@font/sf_ui_display_heavy"
+            android:text="Me connecter"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/loginToggle"
+            app:layout_constraintEnd_toEndOf="@+id/loginPassword"
+            app:layout_constraintStart_toStartOf="@+id/loginPassword" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sf_ui_display_light"
+            android:text="Nouveau avec Kungry? "
+            android:textColor="#FFFFFF"
+            app:layout_constraintBaseline_toBaselineOf="@+id/loginToggle"
+            app:layout_constraintEnd_toStartOf="@+id/loginToggle"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/sf_ui_display_semibold"
+            android:text="Connexion"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/loginEmail"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/loginToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@null"
+            android:fontFamily="@font/sf_ui_display_bold"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:padding="0dp"
+            android:text="M'inscrire"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/textView9" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/signupLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="-27dp"
+        tools:visibility="gone">
+
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="67dp"
+            android:layout_height="71dp"
+            android:layout_marginBottom="12dp"
+            android:src="@drawable/ic_australian_kangaroo_logo"
+            app:layout_constraintBottom_toTopOf="@+id/textView14"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/futuralt_bold"
+            android:text="Kungry"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/sf_ui_display_semibold"
+            android:text="Inscription"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/signupFirstName"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/signupFirstName"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/connexion_loginA"
+            android:drawablePadding="12dp"
+            android:ems="10"
+            android:fontFamily="@font/sf_ui_display_light"
+            android:hint="Prénom"
+            android:inputType="textPersonName"
+            android:paddingLeft="12dp"
+            android:textColor="@color/blackText"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/signupLastName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView2" />
+
+        <EditText
+            android:id="@+id/signupLastName"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/connexion_loginA"
+            android:drawablePadding="12dp"
+            android:ems="10"
+            android:fontFamily="@font/sf_ui_display_light"
+            android:hint="Nom"
+            android:inputType="textPersonName"
+            android:paddingLeft="12dp"
+            android:textColor="@color/blackText"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/signupEmail"
+            app:layout_constraintEnd_toEndOf="@+id/signupFirstName"
+            app:layout_constraintStart_toStartOf="@+id/signupFirstName" />
+
+        <EditText
+            android:id="@+id/signupEmail"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/connexion_loginA"
+            android:drawablePadding="12dp"
+            android:ems="10"
+            android:fontFamily="@font/sf_ui_display_light"
+            android:hint="Courriel"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="12dp"
+            android:textColor="@color/blackText"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/signupPassword"
+            app:layout_constraintEnd_toEndOf="@+id/signupLastName"
+            app:layout_constraintStart_toStartOf="@+id/signupLastName" />
+
+        <EditText
+            android:id="@+id/signupPassword"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/connexion_loginA"
+            android:drawablePadding="12dp"
+            android:ems="10"
+            android:fontFamily="@font/sf_ui_display_light"
+            android:hint="Mot de passe"
+            android:inputType="textPassword"
+            android:paddingLeft="12dp"
+            android:textColor="@color/blackText"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/signupButton"
+            app:layout_constraintEnd_toEndOf="@+id/signupEmail"
+            app:layout_constraintStart_toStartOf="@+id/signupEmail" />
+
+        <Button
+            android:id="@+id/signupButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/login_button"
+            android:fontFamily="@font/sf_ui_display_heavy"
+            android:text="M'inscrire"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/signupToggle"
+            app:layout_constraintEnd_toEndOf="@+id/signupPassword"
+            app:layout_constraintStart_toStartOf="@+id/signupPassword" />
+
+        <Button
+            android:id="@+id/signupToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@null"
+            android:fontFamily="@font/futuralt_bold"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:padding="0dp"
+            android:text="Me connecter"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/textView11" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sf_ui_display_light"
+            android:text="Déjà abonnée? "
+            android:textColor="#FFFFFF"
+
+            app:layout_constraintBaseline_toBaselineOf="@+id/signupToggle"
+            app:layout_constraintEnd_toStartOf="@+id/signupToggle"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
