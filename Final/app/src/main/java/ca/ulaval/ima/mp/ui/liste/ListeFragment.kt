@@ -40,6 +40,14 @@ class ListeFragment : Fragment() {
 
         getListOfRestaurant()
 
+        lv.setOnItemClickListener { adapter, view, position, id ->
+            val item = adapter.getItemAtPosition(position) as RestaurantLight
+            Log.d("demo", "selected Brand:${item.name}, selected Id:${item.id}")
+            val intent = Intent(this.context, RestaurantDetailsActivity::class.java)
+            //    intent.putExtra("id", item.id)
+            //   startActivity(intent)
+        }
+
 
 
         return root
@@ -77,6 +85,7 @@ class ListeFragment : Fragment() {
         lateinit var distanceTextView : TextView
         lateinit var reviewCountTextView : TextView
         lateinit var review_average : RatingBar
+        lateinit var cuisineTextView : TextView
 
         override fun getCount(): Int {
             return listeRestaurant.size
@@ -105,11 +114,14 @@ class ListeFragment : Fragment() {
                 distanceTextView = row.findViewById(R.id.kmTextView)
                 reviewCountTextView= row.findViewById(R.id.nbrsReviewTextView)
                 review_average = row.findViewById(R.id.ratingBar)
+                cuisineTextView = row.findViewById(R.id.cuisineTextView)
             }
             restaurantName.text = restaurantLight.name
             Picasso.get().load(restaurantLight.image).into(mImageView)
             reviewCountTextView.text = "(" + restaurantLight.review_count.toString() + ")"
             distanceTextView.text = restaurantLight.distance
+            review_average.rating = restaurantLight.review_average
+            cuisineTextView.text = restaurantLight.cuisine[0].name
 
             return row!!
         }
