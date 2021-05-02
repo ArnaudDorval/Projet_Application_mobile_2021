@@ -1,9 +1,7 @@
 <component name="libraryTable">
   <library name="Gradle: com.google.android.gms:play-services-tasks:9.0.0@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5d6377271da3b8c2b2edc17a4f917446/jetified-play-services-tasks-9.0.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5d6377271da3b8c2b2edc17a4f917446/jetified-play-services-tasks-9.0.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5d6377271da3b8c2b2edc17a4f917446/jetified-play-services-tasks-9.0.0/AndroidManifest.xml" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/aeae878c79721831e25894c68e5a0d03/jetified-play-services-tasks-9.0.0/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/edcccd1f7e8bca15290f3fc605e1fc6c/jetified-play-services-tasks-9.0.0/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/61fe85224517b0e0da8bf1a2406ea7dd/jetified-play-services-tasks-9.0.0/AndroidManifest.xml" />
@@ -12,6 +10,9 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6e000bee92e5e83197a25c41f4850f79/jetified-play-services-tasks-9.0.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6e000bee92e5e83197a25c41f4850f79/jetified-play-services-tasks-9.0.0/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/6e000bee92e5e83197a25c41f4850f79/jetified-play-services-tasks-9.0.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7adc72ad1ec819c80a46f908d7656298/jetified-play-services-tasks-9.0.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7adc72ad1ec819c80a46f908d7656298/jetified-play-services-tasks-9.0.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7adc72ad1ec819c80a46f908d7656298/jetified-play-services-tasks-9.0.0/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

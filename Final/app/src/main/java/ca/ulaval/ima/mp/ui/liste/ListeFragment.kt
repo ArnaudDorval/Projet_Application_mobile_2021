@@ -1,5 +1,6 @@
 package ca.ulaval.ima.mp.ui.liste
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,8 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ca.ulaval.ima.mp.R
@@ -25,9 +25,9 @@ import retrofit2.Response
 
 class ListeFragment : Fragment() {
     private lateinit var mRecyclerView: RecyclerView
-    private lateinit var recyclerviewadapter: RestaurantsRecyclerViewAdapter
     val imaNetworkCenter = NetworkCenter.buildService(KungryAPI::class.java)
     var restaurantLightList : List<RestaurantLight> = emptyList()
+    lateinit var lv: ListView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,8 +36,7 @@ class ListeFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_liste, container, false)
 
-        mRecyclerView = root.findViewById(R.id.recycler_view_Liste)
-        mRecyclerView.layoutManager = LinearLayoutManager(this.context)
+        lv = root.findViewById(R.id.mylisteView)
 
         getListOfRestaurant()
 
@@ -57,14 +56,8 @@ class ListeFragment : Fragment() {
                     response.body()?.content?.results?.let {
                         Log.d("Test:", it.size.toString())
                         restaurantLightList = it
-                        recyclerviewadapter = RestaurantsRecyclerViewAdapter(restaurantLightList)
-                        mRecyclerView.adapter = recyclerviewadapter
-                        recyclerviewadapter.setOnClickListener {
-                            val restoID = ParcelDataAPI(it.id,it.location)
-                            val intent = Intent(context, RestaurantDetailsActivity::class.java)
-                            intent.putExtra("restoID", restoID);
-                            startActivity(intent)
-                        }
+                        val adapter = RestaurantsListAdapter(requireContext(), R.layout.restaurantlight_list, it)
+                        lv.adapter = adapter
                     }
                 }
             }
@@ -78,52 +71,47 @@ class ListeFragment : Fragment() {
         }
         )
     }
+    private class RestaurantsListAdapter(context: Context, private val cellResourceId: Int, private val listeRestaurant: List<RestaurantLight>) : ArrayAdapter<RestaurantLight?>(context, cellResourceId, listeRestaurant) {
+        lateinit var restaurantName: TextView
+        lateinit var mImageView: ImageView
+        lateinit var distanceTextView : TextView
+        lateinit var reviewCountTextView : TextView
+        lateinit var review_average : RatingBar
 
-
-
-    private class RestaurantsRecyclerViewAdapter(private val restaurantLightList : List<RestaurantLight>) : RecyclerView.Adapter<RestaurantsRecyclerViewAdapter.ViewHolder>() {
-        lateinit var onItemClickListener: ((RestaurantLight) -> Unit)
-
-        override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-            lateinit var view: View
-            view = LayoutInflater.from(viewGroup.context).inflate(R.layout.restaurantlight_list, viewGroup, false)
-            return ViewHolder(view)
+        override fun getCount(): Int {
+            return listeRestaurant.size
         }
 
+        override fun getItem(position: Int): RestaurantLight {
+            return listeRestaurant[position]
+        }
 
-        override fun onBindViewHolder(holder: ViewHolder, i: Int) {
-            val restaurant = restaurantLightList[i]
-            holder.mItem = restaurant
-            holder.mRestaurantName.text = restaurant.name
-            //holder.mCuisineType.text = restaurant.cuisine
-            Picasso.get().load(restaurant.image).into(holder.mImageView)
+        override fun getItemId(position: Int): Long {
+            return position.toLong()
+        }
 
-            holder.mView.setOnClickListener(){
-                onItemClickListener.invoke(restaurant)
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+
+            var row= convertView
+            if (row == null) {
+                Log.d("ima", "Create new row")
+                val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                row = inflater.inflate(cellResourceId, parent, false)
             }
+            val restaurantLight = getItem(position) //Get item
+            row?.let {
+                restaurantName = row.findViewById(R.id.nameTextView)//Set Name
+                mImageView = row.findViewById(R.id.imageView)
+                distanceTextView = row.findViewById(R.id.kmTextView)
+                reviewCountTextView= row.findViewById(R.id.nbrsReviewTextView)
+                review_average = row.findViewById(R.id.ratingBar)
+            }
+            restaurantName.text = restaurantLight.name
+            Picasso.get().load(restaurantLight.image).into(mImageView)
+            reviewCountTextView.text = "(" + restaurantLight.review_count.toString() + ")"
+            distanceTextView.text = restaurantLight.distance
 
-        }
-
-        override fun getItemCount(): Int {
-            return restaurantLightList.size
-        }
-
-        inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-            val mRestaurantName: TextView =  mView.findViewById(R.id.nameTextView)
-            //val mCuisineType: TextView =  mView.findViewById(R.id)
-            val mImageView: ImageView = mView.findViewById(R.id.imageView)
-            var mItem: RestaurantLight? = null
-        }
-
-        fun setOnClickListener(onItemClickListener: ((RestaurantLight) -> Unit)) {
-            this.onItemClickListener = onItemClickListener
-        }
-
-        companion object {
-            private const val ASSETS_DIR = "images/"
-            private const val SMALL_CELL_TYPE = 0
-            private const val LARGE_CELL_TYPE = 1
+            return row!!
         }
     }
-
 }
