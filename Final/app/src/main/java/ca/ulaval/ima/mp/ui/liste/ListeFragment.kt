@@ -18,6 +18,7 @@ import ca.ulaval.ima.mp.model.RestaurantLight
 import ca.ulaval.ima.mp.networking.KungryAPI
 import ca.ulaval.ima.mp.networking.NetworkCenter
 import ca.ulaval.ima.mp.ui.RestaurantDetailsActivity
+import ca.ulaval.ima.mp.ui.parcelables.ParcelDataAPI
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -28,11 +29,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ListeFragment : Fragment() {
-    private lateinit var mRecyclerView: RecyclerView
     val imaNetworkCenter = NetworkCenter.buildService(KungryAPI::class.java)
     var restaurantLightList : List<RestaurantLight> = emptyList()
     lateinit var lv: ListView
-    lateinit var currentActivity: Activity
     var currentLatLng: LatLng? = null
 
     override fun onCreateView(
@@ -51,44 +50,14 @@ class ListeFragment : Fragment() {
             val item = adapter.getItemAtPosition(position) as RestaurantLight
             Log.d("demo", "selected Brand:${item.name}, selected Id:${item.id}")
             val intent = Intent(this.context, RestaurantDetailsActivity::class.java)
-            //    intent.putExtra("id", item.id)
-            //   startActivity(intent)
+            var objectID = ParcelDataAPI(item.id, 0.0,0.0)
+            intent.putExtra("restoID", objectID)
+            startActivity(intent)
         }
 
 
 
         return root
-    }
-
-    fun getListOfRestaurant() {
-        imaNetworkCenter.getListRestaurant(1, 5).enqueue(object :
-            Callback<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>> {
-            override fun onResponse(
-                call: Call<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>>,
-                response: Response<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>>
-            ) {
-                if (response.isSuccessful) {
-                    response.body()?.content?.results?.let {
-                        Log.d("Test:", it.size.toString())
-                        restaurantLightList = it
-                        val adapter = RestaurantsListAdapter(
-                            requireContext(),
-                            R.layout.restaurantlight_list,
-                            it
-                        )
-                        lv.adapter = adapter
-                    }
-                }
-            }
-
-            override fun onFailure(
-                call: Call<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>>,
-                t: Throwable
-            ) {
-                Log.d("ima-demo", "listRestaurants Failure ${t.message}")
-            }
-        }
-        )
     }
 
     fun getRestaurantNearby(latitude: Double, longitude: Double){
