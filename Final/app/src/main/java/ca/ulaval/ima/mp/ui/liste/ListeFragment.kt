@@ -1,6 +1,5 @@
 package ca.ulaval.ima.mp.ui.liste
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -10,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import ca.ulaval.ima.mp.MainActivity
 import ca.ulaval.ima.mp.R
 import ca.ulaval.ima.mp.model.PaginatedResultSerializer
@@ -19,10 +17,7 @@ import ca.ulaval.ima.mp.networking.KungryAPI
 import ca.ulaval.ima.mp.networking.NetworkCenter
 import ca.ulaval.ima.mp.ui.RestaurantDetailsActivity
 import ca.ulaval.ima.mp.ui.parcelables.ParcelDataAPI
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
@@ -50,9 +45,13 @@ class ListeFragment : Fragment() {
             val item = adapter.getItemAtPosition(position) as RestaurantLight
             Log.d("demo", "selected Brand:${item.name}, selected Id:${item.id}")
             val intent = Intent(this.context, RestaurantDetailsActivity::class.java)
-            var objectID = ParcelDataAPI(item.id, 0.0,0.0)
-            intent.putExtra("restoID", objectID)
-            startActivity(intent)
+            currentLatLng = (activity as MainActivity).getCurrentLatLng()
+
+            if(currentLatLng != null){
+                var objectID = ParcelDataAPI(item.id, currentLatLng!!.latitude, currentLatLng!!.latitude, item.distance)
+                intent.putExtra("restaurant", objectID)
+                startActivity(intent)
+            }
         }
         return root
     }
