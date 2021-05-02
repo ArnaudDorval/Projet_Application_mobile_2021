@@ -1,0 +1,47 @@
+###
+### GITIGNORE 
+###
+
+syntax: glob
+*.class
+*.apk
+*.dex
+*.ap_
+*.suo
+*.pyc
+*.log
+*.pid
+*.psql
+*.db
+
+
+**/log/*.log
+**/obj/
+**/gen/
+**/bin/
+**/jars/
+**/jar-sources/
+**/javadoc/
+**/.settings/
+**/.metadata/
+**/.svn/
+
+
+###
+### Syntax for Android Studio Projects
+###
+syntax: glob
+.gradle
+local.properties
+.idea
+.DS_Store
+build
+*.iml
+gradlew
+gradlew.bat
+*.orig
+
+echo -e "\nlocal.properties" >> .gitignore
+git add .gitignore
+git rm local.properties --cached
+git commit -m "Removed local.properties from the git"
