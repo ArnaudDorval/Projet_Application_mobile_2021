@@ -5,16 +5,17 @@ import ca.ulaval.ima.mp.model.Location
 import com.google.android.gms.maps.model.LatLng
 
 //Classe générée automatiquement via Android Studio, permet l'envois d'objets parcelables
-class ParcelDataAPI (val restoID: Int?, val location: Location?) : Parcelable{
+class ParcelDataAPI (val restoID: Int?, val latitude : Double, val longitude : Double): Parcelable{
     constructor(parcel: Parcel) : this(
-        parcel.readValue(Int::class.java.classLoader) as? Int,
-        parcel.readValue(Int::class.java.classLoader) as? Location,
-    ) {
+            parcel.readValue(Int::class.java.classLoader) as? Int,
+            parcel.readDouble(),
+            parcel.readDouble()) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(restoID)
-        parcel.writeValue(location)
+        parcel.writeDouble(latitude)
+        parcel.writeDouble(longitude)
     }
 
     override fun describeContents(): Int {
