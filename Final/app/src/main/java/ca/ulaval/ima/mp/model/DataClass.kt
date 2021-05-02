@@ -104,7 +104,7 @@ data class Restaurant(
         @SerializedName("distance")  val distance:String,
         @SerializedName("review_count")  val review_count:Int,
         @SerializedName("opening_hours")  val opening_hours:List<OpeningHour>,
-        @SerializedName("review_average")  val review_average:Float,
+        @SerializedName("review_average")  val review_average:Number,
         @SerializedName("location")  val location:Location,
         @SerializedName("reviews")  val reviews:List<Review>,
         @SerializedName("name") val name:String,

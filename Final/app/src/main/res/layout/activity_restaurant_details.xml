@@ -37,7 +37,7 @@
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <TextView
-                android:id="@+id/restaurantDetails_nameRestTextView"
+                android:id="@+id/restaurantCommentaires_EvalTitleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -59,8 +59,8 @@
                 android:text="Type de restaurant"
                 android:textColor="@color/blackText"
                 android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/restaurantDetails_nameRestTextView"
-                app:layout_constraintTop_toBottomOf="@+id/restaurantDetails_nameRestTextView" />
+                app:layout_constraintStart_toStartOf="@+id/restaurantCommentaires_EvalTitleTextView"
+                app:layout_constraintTop_toBottomOf="@+id/restaurantCommentaires_EvalTitleTextView" />
 
             <TextView
                 android:id="@+id/restaurantDetails_kmDetailsTextView"

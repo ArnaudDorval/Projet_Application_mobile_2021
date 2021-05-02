@@ -28,8 +28,6 @@ import ca.ulaval.ima.mp.model.PaginatedResultSerializer
 import ca.ulaval.ima.mp.model.RestaurantLight
 import ca.ulaval.ima.mp.networking.KungryAPI
 import ca.ulaval.ima.mp.networking.NetworkCenter
-import ca.ulaval.ima.mp.ui.RestaurantDetailsActivity
-import ca.ulaval.ima.mp.ui.parcelables.ParcelDataAPI
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -63,8 +61,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var locationBitmap: Bitmap? = null
     private var personBitmap: Bitmap? = null
     private lateinit var root : View
-
-    lateinit var selectedRestaurant: RestaurantLight
 
     var restaurantLightList : List<RestaurantLight> = emptyList()
 
@@ -105,11 +101,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             Toast.makeText(requireContext(), "get permission map sauce", Toast.LENGTH_LONG).show();
         }*/
 
-
         //getLocation()
         //getLocation()
-
-
 
         return root
     }
@@ -210,17 +203,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         currentActivity = activity
         myMap = p0
 
-        cardView.setOnClickListener {
-            if (selectedRestaurant != null) {
-                //Start other activity to display detailed offer
-                val restaurantDetailsActivity = Intent(context, RestaurantDetailsActivity::class.java)
-                // Gotta do another request for more detailed information
-                val fucku = ParcelDataAPI(selectedRestaurant.id, selectedRestaurant.location.latitude, selectedRestaurant.location.longitude, selectedRestaurant.distance);
-                restaurantDetailsActivity.putExtra("restaurant", fucku)
-                startActivity(restaurantDetailsActivity)
-            }
-        }
-
         //create listner to display restaurant summary
         myMap!!.setOnMarkerClickListener { marker ->
             var selectedRestaurantId = 0
@@ -231,9 +213,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             //val canvas = Canvas()
             //val iconSelectedBitmap = Bitmap.createBitmap(iconDrawable.intrinsicWidth, iconDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
 
+
+            var selectedRestaurant = 0
+
             for (item in restaurantList){
                 if(item.name == marker.title){
-                    selectedRestaurant = item
+                    selectedRestaurant = item.id
                     displayRestaurant(item);
                     break
                 }
@@ -275,6 +260,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
                 override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
             }
+
+            //Get phone location
+
             //Get phone location
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10f, locationListener)
 

@@ -1,5 +1,6 @@
 package ca.ulaval.ima.mp.ui.liste
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import ca.ulaval.ima.mp.MainActivity
 import ca.ulaval.ima.mp.R
 import ca.ulaval.ima.mp.model.PaginatedResultSerializer
@@ -16,7 +18,6 @@ import ca.ulaval.ima.mp.model.RestaurantLight
 import ca.ulaval.ima.mp.networking.KungryAPI
 import ca.ulaval.ima.mp.networking.NetworkCenter
 import ca.ulaval.ima.mp.ui.RestaurantDetailsActivity
-import ca.ulaval.ima.mp.ui.parcelables.ParcelDataAPI
 import com.google.android.gms.maps.model.LatLng
 import com.squareup.picasso.Picasso
 import retrofit2.Call
@@ -24,9 +25,11 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ListeFragment : Fragment() {
+    private lateinit var mRecyclerView: RecyclerView
     val imaNetworkCenter = NetworkCenter.buildService(KungryAPI::class.java)
     var restaurantLightList : List<RestaurantLight> = emptyList()
     lateinit var lv: ListView
+    lateinit var currentActivity: Activity
     var currentLatLng: LatLng? = null
 
     override fun onCreateView(
@@ -45,15 +48,41 @@ class ListeFragment : Fragment() {
             val item = adapter.getItemAtPosition(position) as RestaurantLight
             Log.d("demo", "selected Brand:${item.name}, selected Id:${item.id}")
             val intent = Intent(this.context, RestaurantDetailsActivity::class.java)
-            currentLatLng = (activity as MainActivity).getCurrentLatLng()
-
-            if(currentLatLng != null){
-                var objectID = ParcelDataAPI(item.id, currentLatLng!!.latitude, currentLatLng!!.latitude, item.distance)
-                intent.putExtra("restaurant", objectID)
-                startActivity(intent)
-            }
+            //    intent.putExtra("id", item.id)
+            //   startActivity(intent)
         }
         return root
+    }
+
+    fun getListOfRestaurant() {
+        imaNetworkCenter.getListRestaurant(1, 5).enqueue(object :
+            Callback<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>> {
+            override fun onResponse(
+                call: Call<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>>,
+                response: Response<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>>
+            ) {
+                if (response.isSuccessful) {
+                    response.body()?.content?.results?.let {
+                        Log.d("Test:", it.size.toString())
+                        restaurantLightList = it
+                        val adapter = RestaurantsListAdapter(
+                            requireContext(),
+                            R.layout.restaurantlight_list,
+                            it
+                        )
+                        lv.adapter = adapter
+                    }
+                }
+            }
+
+            override fun onFailure(
+                call: Call<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>>,
+                t: Throwable
+            ) {
+                Log.d("ima-demo", "listRestaurants Failure ${t.message}")
+            }
+        }
+        )
     }
 
     fun getRestaurantNearby(latitude: Double, longitude: Double){
@@ -128,7 +157,7 @@ class ListeFragment : Fragment() {
                 distanceTextView = row.findViewById(R.id.kmTextView)
                 reviewCountTextView= row.findViewById(R.id.nbrsReviewTextView)
                 review_average = row.findViewById(R.id.ratingBar)
-                cuisineTextView = row.findViewById(R.id.cuisineTextView)
+                cuisineTextView = row.findViewById(R.id.restaurantReviews_nomTextView)
             }
             restaurantName.text = restaurantLight.name
             Picasso.get().load(restaurantLight.image).into(mImageView)
