@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -17,12 +16,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.RatingBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import ca.ulaval.ima.mp.MainActivity
 import ca.ulaval.ima.mp.R
 import ca.ulaval.ima.mp.model.PaginatedResultSerializer
+import ca.ulaval.ima.mp.model.Restaurant
 import ca.ulaval.ima.mp.model.RestaurantLight
 import ca.ulaval.ima.mp.networking.KungryAPI
 import ca.ulaval.ima.mp.networking.NetworkCenter
@@ -30,9 +33,11 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 
 class MapFragment : Fragment(), OnMapReadyCallback {
@@ -54,6 +59,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var currentLatLng: LatLng? = null
 
     var zoomMap = 12.0f
+    var restaurantList: List<RestaurantLight> = listOf()
     private var locationBitmap: Bitmap? = null
     private var personBitmap: Bitmap? = null
     private lateinit var root : View
@@ -205,6 +211,22 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             unselectedLayout.visibility = View.GONE
             selectedLayout.visibility = View.VISIBLE
 
+            //val iconDrawable = requireContext().resources.getDrawable(R.drawable.ic_training,context!!.theme)
+            //val canvas = Canvas()
+            //val iconSelectedBitmap = Bitmap.createBitmap(iconDrawable.intrinsicWidth, iconDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+
+
+            var selectedRestaurant = 0
+
+            for (item in restaurantList){
+                if(item.name == marker.title){
+                    selectedRestaurant = item.id
+                    displayRestaurant(item);
+                    break
+                }
+            }
+
+
             false
         }
 
@@ -280,10 +302,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             Log.d("Test:", it.size.toString())
                             restaurantLightList = it
                             Toast.makeText(requireContext(), "nb restaurant proche " + it.size.toString(), Toast.LENGTH_LONG).show();
-
+                            restaurantList = emptyList()
 
                             //Display the map and zoom near user's location
                             myMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, zoomMap))
+
+
+                            //Convert icon to bitmap to display on the map
+
 
                             //myMap!!.addMarker(MarkerOptions().position(currentLatLng!!).title("You")))
                             myMap?.apply {
@@ -295,7 +321,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                                 )
                             }
 
-
+                            restaurantList = it
                             for (item in it) {
                                 println(item.name)
 
@@ -314,9 +340,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 }
 
                 override fun onFailure(
-                    call: Call<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>>,
-                    t: Throwable
-            ) {
+                        call: Call<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>>,
+                        t: Throwable
+                ) {
                     Log.d("ima-demo", "listRestaurants Failure ${t.message}")
                 }
             }
@@ -324,8 +350,23 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
 
+    private fun displayRestaurant(restaurant: RestaurantLight) {
+        val nameTextView = root!!.findViewById<TextView>(R.id.mapNameTextView)
+        val imageView = root!!.findViewById<ImageView>(R.id.mapImageView)
+        val cuisineTextView = root!!.findViewById<TextView>(R.id.mapCuisineTextView)
+        val ratingBar = root!!.findViewById<RatingBar>(R.id.mapRatingBar)
+        val nbrsReviewTextView = root!!.findViewById<TextView>(R.id.mapNbrsReviewTextView)
+        val kmTextView = root!!.findViewById<TextView>(R.id.mapKmTextView)
 
-
+        //Set text and image
+        nameTextView.setText(restaurant.name)
+        cuisineTextView.setText(restaurant.type)
+        nbrsReviewTextView.text = "(" + Integer.toString(restaurant.review_count) + ")"
+        kmTextView.setText(restaurant.distance)
+        ratingBar.numStars = 5
+        ratingBar.rating = restaurant.review_average
+        Picasso.get().load(restaurant.image).into(imageView)
+    }
 }
 
 //

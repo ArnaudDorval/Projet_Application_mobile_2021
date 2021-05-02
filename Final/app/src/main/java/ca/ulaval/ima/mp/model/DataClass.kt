@@ -65,7 +65,7 @@ data class RestaurantLight(
         @SerializedName("cuisine")  val cuisine:List<Cuisine>,
         @SerializedName("type") val type:String,
         @SerializedName("review_count")  val review_count:Int,
-        @SerializedName("review_average")  val review_average:Number,
+        @SerializedName("review_average")  val review_average:Float,
         @SerializedName("image")  val image:String,
         @SerializedName("distance")  val distance:String,
         @SerializedName("location")  val location:Location

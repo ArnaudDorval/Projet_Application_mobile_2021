@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:fontFamily="@font/sf_ui_display_light"
+        android:text="km"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mapKmTextView" />
+
+    <TextView
+        android:id="@+id/mapKmTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:fontFamily="@font/sf_ui_display_light"
+        android:text="km"
+        android:textColor="@color/blackText"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/mapNbrsReviewTextView"
+        app:layout_constraintEnd_toStartOf="@+id/textView17" />
+
+    <TextView
+        android:id="@+id/mapCuisineTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/sf_ui_display_light"
+        android:text="Snack/Food"
+        android:textColor="@color/blackText"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/mapNameTextView"
+        app:layout_constraintTop_toBottomOf="@+id/mapNameTextView" />
+
+    <ImageView
+        android:id="@+id/mapImageView"
+        android:layout_width="92dp"
+        android:layout_height="71dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/mapRatingBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mapNameTextView"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+    <TextView
+        android:id="@+id/mapNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/sf_ui_display_heavy"
+        android:text="L'affaire est ketchup!"
+        android:textColor="@color/blackText"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/mapImageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/mapNbrsReviewTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:fontFamily="@font/sf_ui_display_light"
+        android:text="(nbr)"
+        android:textColor="@color/blackText"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/mapRatingBar"
+        app:layout_constraintStart_toEndOf="@+id/mapRatingBar"
+        app:layout_constraintTop_toTopOf="@+id/mapRatingBar" />
+
+    <RatingBar
+        android:id="@+id/mapRatingBar"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="@+id/mapCuisineTextView"
+        app:layout_constraintTop_toBottomOf="@+id/mapCuisineTextView" />
+
+    <ImageView
+        android:id="@+id/mapImageView2"
+        android:layout_width="12dp"
+        android:layout_height="14dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/mapKmTextView"
+        app:layout_constraintEnd_toStartOf="@+id/mapKmTextView"
+        app:layout_constraintTop_toTopOf="@+id/mapKmTextView"
+        app:srcCompat="@drawable/ic_icone_pin"
+        tools:ignore="VectorDrawableCompat" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

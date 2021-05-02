@@ -49,16 +49,16 @@ class ConnexionFragment : Fragment() {
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_connexion, container, false)
 
-        pLoginEmail = root.findViewById<EditText>(R.id.loginEmail)
-        pLoginPassword = root.findViewById<EditText>(R.id.loginPassword)
-        pLoginButton = root.findViewById<Button>(R.id.loginButton)
-        pLoginToggle = root.findViewById<Button>(R.id.loginToggle)
-        pSignupToggle = root.findViewById<Button>(R.id.signupToggle)
-        pSignupFirstName = root.findViewById<EditText>(R.id.signupFirstName)
-        pSignupLastName = root.findViewById<EditText>(R.id.signupLastName)
-        pSignupEmail = root.findViewById<EditText>(R.id.signupEmail)
-        pSignupPassword = root.findViewById<EditText>(R.id.signupPassword)
-        pSignupButton = root.findViewById<Button>(R.id.signupButton)
+        //pLoginEmail = root.findViewById<EditText>(R.id.loginEmail)
+        //pLoginPassword = root.findViewById<EditText>(R.id.loginPassword)
+        //pLoginButton = root.findViewById<Button>(R.id.loginButton)
+        //pLoginToggle = root.findViewById<Button>(R.id.loginToggle)
+        //pSignupToggle = root.findViewById<Button>(R.id.signupToggle)
+        //pSignupFirstName = root.findViewById<EditText>(R.id.signupFirstName)
+        //pSignupLastName = root.findViewById<EditText>(R.id.signupLastName)
+        //pSignupEmail = root.findViewById<EditText>(R.id.signupEmail)
+        //pSignupPassword = root.findViewById<EditText>(R.id.signupPassword)
+        //pSignupButton = root.findViewById<Button>(R.id.signupButton)
 
 
         return root
