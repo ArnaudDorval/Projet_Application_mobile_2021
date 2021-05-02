@@ -18,10 +18,7 @@ import ca.ulaval.ima.mp.model.RestaurantLight
 import ca.ulaval.ima.mp.networking.KungryAPI
 import ca.ulaval.ima.mp.networking.NetworkCenter
 import ca.ulaval.ima.mp.ui.RestaurantDetailsActivity
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
@@ -163,7 +160,7 @@ class ListeFragment : Fragment() {
                 distanceTextView = row.findViewById(R.id.kmTextView)
                 reviewCountTextView= row.findViewById(R.id.nbrsReviewTextView)
                 review_average = row.findViewById(R.id.ratingBar)
-                cuisineTextView = row.findViewById(R.id.cuisineTextView)
+                cuisineTextView = row.findViewById(R.id.restaurantReviews_nomTextView)
             }
             restaurantName.text = restaurantLight.name
             Picasso.get().load(restaurantLight.image).into(mImageView)

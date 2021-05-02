@@ -37,7 +37,7 @@ class RestaurantDetailsActivity : AppCompatActivity() {
         var loginLayout = findViewById<ConstraintLayout>(R.id.connexionConstraintLayout)
         var detailsConnextionText = findViewById<TextView>(R.id.detailsConnexionText)
 
-        var textName = findViewById<TextView>(R.id.restaurantDetails_nameRestTextView)
+        var textName = findViewById<TextView>(R.id.restaurantCommentaires_EvalTitleTextView)
         var textType = findViewById<TextView>(R.id.restaurantDetails_typeRestTextView)
         var textNbReviews = findViewById<TextView>(R.id.restaurantDetails_nbrReviewsTextView)
         var textNbReviews2 = findViewById<TextView>(R.id.restaurantDetails_nbrReviews2TextView)

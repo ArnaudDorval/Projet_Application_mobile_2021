@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/restaurantReviews_dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/sf_ui_display_semibold"
+        android:text="24 janvier 2020"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/restaurantReviews_nomTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/sf_ui_display_medium"
+        android:text="Phillippe Vaillancourt"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restaurantReviews_dateTextView" />
+    <TextView
+        android:id="@+id/nbrsReviewTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:text="Tout simplement délicieux! Je recommande l'endroit!"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restaurantReviews_nomTextView" />
+
+    <ImageView
+    android:id="@+id/imageView"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:layout_marginStart="40dp"
+    android:layout_marginLeft="40dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/nbrsReviewTextView"
+    tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16.27dp"
+        android:layout_marginRight="16.27dp"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:rating="0.0"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:stepSize="1.0"
+        android:transformPivotX="0dp"
+        android:transformPivotY="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/restaurantReviews_dateTextView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
