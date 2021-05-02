@@ -2,6 +2,7 @@ package ca.ulaval.ima.mp.ui.map
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -16,13 +17,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import ca.ulaval.ima.mp.MainActivity
 import ca.ulaval.ima.mp.R
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.LatLng
 
 
 class MapFragment : Fragment(), OnMapReadyCallback {
@@ -37,6 +39,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     lateinit var unselectedLayout : View
     private var locationGps : Location? = null
     private var locationNetWork : Location? = null
+
+    private var currentActivity: Activity? = null
+    private var currentLatLng: LatLng? = null
 
     private lateinit var root : View
 
@@ -117,7 +122,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     override fun onLocationChanged(location: Location) {
                         if (location != null) {
                             locationNetWork = location
+                            currentLatLng = LatLng(location.latitude, location.longitude)
+
+                            if (currentActivity is MainActivity) {
+                                (currentActivity as MainActivity).setCurrentLatLng(currentLatLng)
+                            }
+
+                            //getNearbyRestaurant(currentLatLng?.latitude, currentLatLng?.longitude)
                         }
+
+
                     }
 
                     override fun onProviderEnabled(provider: String) {}
@@ -150,6 +164,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(p0: GoogleMap?) {
 
         MapsInitializer.initialize(context)
+
+        //Set location (LatLng)
+        currentActivity = activity
         myMap = p0
 
         //create listner to display restaurant summary
@@ -163,7 +180,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         if (getActivity()?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) } != PackageManager.PERMISSION_GRANTED &&
                 getActivity()?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_COARSE_LOCATION) } != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(context, "Veuillez activer la localisation GPS de votre appareil", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Activez la localisation GPS de votre appareil", Toast.LENGTH_SHORT).show()
             return
         } else {
             //If we have permission, we get the location

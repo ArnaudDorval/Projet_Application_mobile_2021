@@ -3,15 +3,20 @@ package ca.ulaval.ima.mp
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import ca.ulaval.ima.mp.utils.Token
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+
+    private var currentLatLng: LatLng? = null
+    private val token: Token?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,5 +39,13 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_map, R.id.navigation_liste, R.id.navigation_connexion))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    fun setCurrentLatLng(location: LatLng?) {
+        currentLatLng = location
+    }
+
+    fun getCurrentLatLng(): LatLng? {
+        return currentLatLng
     }
 }
