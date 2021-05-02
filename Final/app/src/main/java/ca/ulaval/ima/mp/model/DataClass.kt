@@ -92,7 +92,7 @@ data class Creator(
 data class Review(
         @SerializedName("id")  val id:Int,
         @SerializedName("creator") val creator:Creator,
-        @SerializedName("stars") val stars:Int,
+        @SerializedName("stars") val stars:Float,
         @SerializedName("image") val image:String,
         @SerializedName("comment") val comment:String,
         @SerializedName("date") val date:String

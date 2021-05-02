@@ -52,7 +52,7 @@ class ListeFragment : Fragment() {
             currentLatLng = (activity as MainActivity).getCurrentLatLng()
 
             if(currentLatLng != null){
-                var objectID = ParcelDataAPI(item.id, currentLatLng!!.latitude, currentLatLng!!.latitude, item.distance)
+                var objectID = ParcelDataAPI(item.id, currentLatLng!!.latitude, currentLatLng!!.longitude, item.distance)
                 intent.putExtra("restaurant", objectID)
                 startActivity(intent)
             }
@@ -163,7 +163,7 @@ class ListeFragment : Fragment() {
                 distanceTextView = row.findViewById(R.id.kmTextView)
                 reviewCountTextView= row.findViewById(R.id.nbrsReviewTextView)
                 review_average = row.findViewById(R.id.ratingBar)
-                cuisineTextView = row.findViewById(R.id.restaurantReviews_nomTextView)
+                cuisineTextView = row.findViewById(R.id.restaurantList_nomTextView)
             }
             restaurantName.text = restaurantLight.name
             Picasso.get().load(restaurantLight.image).into(mImageView)
