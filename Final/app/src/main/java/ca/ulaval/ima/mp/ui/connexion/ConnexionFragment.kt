@@ -33,10 +33,11 @@ class ConnexionFragment : Fragment() {
     private  var pSignupLastName:EditText? = null
     private  var pSignupEmail:EditText? = null
     private  var pSignupPassword:EditText? = null
-    private var pLoginButton: Button? = null
+    lateinit var pLoginButton: Button
     private  var pSignupButton:android.widget.Button? = null
     private  var pSignupToggle:android.widget.Button? = null
     lateinit var pLoginToggle : Button
+    private var accountLogin : AccountLogin = AccountLogin("STO4WED2NTDDxjLs8ODios5M15HwsrRlydsMa1t0", "YOVWGpjSnHd5AYDxGBR2CIB09ZYM1OPJGnH3ijkKwrUMVvwLprUmLf6fxku06ClUKTAEl5AeZN36V9QYBYvTtrLMrtUtXVuXOGWleQGYyApC2a469l36TdlXFqAG1tpK", "enrick@bambou.ca", "enrick1234567")
 
     private val token: Token ?= null
     private lateinit var root : View
@@ -53,6 +54,8 @@ class ConnexionFragment : Fragment() {
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_connexion, container, false)
         pLoginToggle = root.findViewById(R.id.loginToggle)
+        pLoginButton = root.findViewById(R.id.loginButton)
+
         pLoginToggle.setOnClickListener {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.replace(R.id.nav_host_fragment, InscriptionFragment())
@@ -60,6 +63,9 @@ class ConnexionFragment : Fragment() {
             transaction?.commit()
         }
 
+        pLoginButton.setOnClickListener {
+            getToken(accountLogin)
+        }
         //pLoginEmail = root.findViewById<EditText>(R.id.loginEmail)
         //pLoginPassword = root.findViewById<EditText>(R.id.loginPassword)
         //pLoginButton = root.findViewById<Button>(R.id.loginButton)

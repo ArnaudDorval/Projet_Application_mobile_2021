@@ -9,6 +9,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import ca.ulaval.ima.mp.model.TokenOutput
 import ca.ulaval.ima.mp.utils.Token
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -16,7 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity() {
 
     private var currentLatLng: LatLng? = null
-    private var myToken: Token?=null
+    private var myToken: TokenOutput?=null
     private var client_id : String = " STO4WED2NTDDxjLs8ODios5M15HwsrRlydsMa1t0"
     private var client_secret : String = "YOVWGpjSnHd5AYDxGBR2CIB09ZYM1OPJGnH3ijkKwrUMVvwLprUmLf6fxku06ClUKTAEl5AeZN36V9QYBYvTtrLMrtUtXVuXOGWleQGYyApC2a469l36TdlXFqAG1tpK"
 
@@ -51,11 +52,11 @@ class MainActivity : AppCompatActivity() {
         return currentLatLng
     }
 
-    fun setCurrentToken(token: Token?) {
+    fun setCurrentToken(token: TokenOutput?) {
         myToken = token
     }
 
-    fun getCurrentToken(): Token? {
+    fun getCurrentToken(): TokenOutput? {
         return myToken
     }
 

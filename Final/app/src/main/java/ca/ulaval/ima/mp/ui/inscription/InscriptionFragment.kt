@@ -1,5 +1,6 @@
 package ca.ulaval.ima.mp.ui.inscription
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,10 +12,14 @@ import android.widget.EditText
 import ca.ulaval.ima.mp.MainActivity
 import ca.ulaval.ima.mp.R
 import ca.ulaval.ima.mp.model.CreateAccountCreate
+import ca.ulaval.ima.mp.model.PaginatedResultSerializer
+import ca.ulaval.ima.mp.model.RestaurantLight
 import ca.ulaval.ima.mp.model.TokenOutput
 import ca.ulaval.ima.mp.networking.KungryAPI
 import ca.ulaval.ima.mp.networking.NetworkCenter
 import ca.ulaval.ima.mp.ui.connexion.ConnexionFragment
+import ca.ulaval.ima.mp.ui.liste.ListeFragment
+import ca.ulaval.ima.mp.ui.moncompte.MonCompteFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,6 +36,7 @@ class InscriptionFragment : Fragment() {
     lateinit var client_secret : String
     lateinit var myToken : TokenOutput
     lateinit var userInscription : CreateAccountCreate
+    private var currentActivity: Activity? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +59,6 @@ class InscriptionFragment : Fragment() {
             userInscription = CreateAccountCreate(client_id, client_secret, prenomEditText.text.toString(),
                 nomEditText.text.toString(), emailEditText.text.toString(), pwdEditText.text.toString())
             createAccount(userInscription)
-            Log.d("Test Button", "myToken.access_token")
         }
 
         var pLoginToggle = root.findViewById<Button>(R.id.loginToggle)
@@ -77,6 +82,15 @@ class InscriptionFragment : Fragment() {
                     response.body()?.content?.let {
                         myToken = it
                         Log.d("Token", myToken.access_token)
+                        if (currentActivity is MainActivity) {
+                            if(myToken!= null){
+                                (currentActivity as MainActivity).setCurrentToken(myToken)
+                            }
+                        }
+                        val transaction = activity?.supportFragmentManager?.beginTransaction()
+                        transaction?.replace(R.id.nav_host_fragment, MonCompteFragment())
+                        transaction?.disallowAddToBackStack()
+                        transaction?.commit()
                     }
                 }
             }
@@ -88,7 +102,10 @@ class InscriptionFragment : Fragment() {
                 Log.d("ima-demo", "postReviewPhoto onFailure $t")
             }
         })
+
+
     }
+
 
 
 }

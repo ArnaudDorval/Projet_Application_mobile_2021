@@ -1,0 +1,54 @@
+###
+### GITIGNORE 
+###
+
+syntax: glob
+*.class
+*.apk
+*.dex
+*.ap_
+*.suo
+*.pyc
+*.log
+*.pid
+*.psql
+*.db
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+**/log/*.log
+**/obj/
+**/gen/
+**/bin/
+**/jars/
+**/jar-sources/
+**/javadoc/
+**/.settings/
+**/.metadata/
+**/.svn/
+
+###
+### Syntax for Android Studio Projects
+###
+syntax: glob
+.gradle
+local.properties
+.idea
+.DS_Store
+build
+*.iml
+gradlew
+gradlew.bat
+*.orig
