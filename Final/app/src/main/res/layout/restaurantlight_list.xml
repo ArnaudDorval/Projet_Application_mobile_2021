@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toStartOf="@+id/textView15" />
 
     <TextView
-        android:id="@+id/restaurantReviews_nomTextView"
+        android:id="@+id/restaurantList_nomTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -61,7 +61,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/restaurantReviews_nomTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/restaurantList_nomTextView" />
 
     <TextView
         android:id="@+id/nbrsReviewTextView"

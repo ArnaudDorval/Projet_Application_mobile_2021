@@ -3,14 +3,17 @@ package ca.ulaval.ima.mp.ui
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import ca.ulaval.ima.mp.R
 import ca.ulaval.ima.mp.model.Location
 import ca.ulaval.ima.mp.model.Restaurant
+import ca.ulaval.ima.mp.model.Review
 import ca.ulaval.ima.mp.networking.KungryAPI
 import ca.ulaval.ima.mp.networking.NetworkCenter
 import ca.ulaval.ima.mp.ui.parcelables.ParcelDataAPI
@@ -126,7 +129,7 @@ class RestaurantDetailsActivity : AppCompatActivity() {
     }
 
     private fun displayRestaurant(restaurant: Restaurant) {
-        val nameTextView = findViewById<TextView>(R.id.restaurantCommentaires_EvalTitleTextView)
+        val nameTextView = findViewById<TextView>(R.id.restaurantDetails_nomRestoTitleTextView)
         val imageView = findViewById<ImageView>(R.id.detailsImageView)
         val cuisineTextView = findViewById<TextView>(R.id.restaurantDetails_typeRestTextView)
         val ratingBar = this.findViewById<RatingBar>(R.id.restaurantDetails_ratingsRatingBar)
@@ -201,3 +204,4 @@ class RestaurantDetailsActivity : AppCompatActivity() {
 
     }
 }
+
