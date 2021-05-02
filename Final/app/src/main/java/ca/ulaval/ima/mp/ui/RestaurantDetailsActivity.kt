@@ -1,17 +1,15 @@
 package ca.ulaval.ima.mp.ui
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import ca.ulaval.ima.mp.R
 import ca.ulaval.ima.mp.model.Location
-import ca.ulaval.ima.mp.model.PaginatedResultSerializer
-import ca.ulaval.ima.mp.model.RestaurantLight
+import ca.ulaval.ima.mp.model.Restaurant
 import ca.ulaval.ima.mp.networking.KungryAPI
 import ca.ulaval.ima.mp.networking.NetworkCenter
 import ca.ulaval.ima.mp.ui.parcelables.ParcelDataAPI
@@ -21,9 +19,13 @@ import retrofit2.Response
 
 class RestaurantDetailsActivity : AppCompatActivity() {
     private var currentLatLng: Location? = null
-    var objectID = ParcelDataAPI(0, currentLatLng)
+
+    private lateinit var selectedRestaurant : Restaurant
+    var objectID = ParcelDataAPI(0, 0.0,0.0)
 
     val imaNetworkCenter = NetworkCenter.buildService(KungryAPI::class.java)
+    var context: Context? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_restaurant_details)
@@ -54,27 +56,10 @@ class RestaurantDetailsActivity : AppCompatActivity() {
         var textFriHour = findViewById<TextView>(R.id.FriHourTextView)
         var textSatHour = findViewById<TextView>(R.id.satHourTextView)
         var textSunHour = findViewById<TextView>(R.id.sunHourTextView)
-    }
-    private fun getRestaurantDetailsFromServer() {
-        imaNetworkCenter.getListRestaurant(1, 5).enqueue(object :
-                Callback<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>> {
-            override fun onResponse(
-                    call: Call<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>>,
-                    response: Response<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>>
-            ) {
-                if (response.isSuccessful) {
-                    response.body()?.content?.results?.let {
 
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-        }
-        )
+        context = this;
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.getItemId()) {
             android.R.id.home -> {
@@ -83,5 +68,37 @@ class RestaurantDetailsActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+
+
+    fun getRestaurantNearby(id: Int, latitude: Double, longitude: Int){
+
+        imaNetworkCenter.getRestaurantById(id, latitude, longitude).enqueue(object :
+                Callback<KungryAPI.ContentResponse<Restaurant>> {
+
+            override fun onResponse(
+                    call: Call<KungryAPI.ContentResponse<Restaurant>>,
+                    response: Response<KungryAPI.ContentResponse<Restaurant>>
+            ) {
+                if (response.isSuccessful) {
+                    response.body()?.content?.let {
+                        Log.d("Test:", it.name)
+                        selectedRestaurant = it
+                        Toast.makeText(context, "resto " + it.name, Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            }
+
+            override fun onFailure(
+                    call: Call<KungryAPI.ContentResponse<Restaurant>>,
+                    t: Throwable
+            ) {
+                Log.d("ima-demo", "listRestaurants Failure ${t.message}")
+                Toast.makeText(context, "listRestaurants Failure ${t.message}", Toast.LENGTH_LONG).show();
+            }
+        }
+        )
     }
 }
