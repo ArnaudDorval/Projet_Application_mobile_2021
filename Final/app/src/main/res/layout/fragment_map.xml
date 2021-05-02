@@ -40,7 +40,7 @@
             android:visibility="invisible">
 
             <include
-                layout="@layout/restaurantlight_list"
+                layout="@layout/resto_map"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
