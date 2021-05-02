@@ -11,10 +11,17 @@ import android.widget.EditText
 import ca.ulaval.ima.mp.MainActivity
 import ca.ulaval.ima.mp.R
 import ca.ulaval.ima.mp.model.CreateAccountCreate
+import ca.ulaval.ima.mp.model.TokenOutput
+import ca.ulaval.ima.mp.networking.KungryAPI
+import ca.ulaval.ima.mp.networking.NetworkCenter
 import ca.ulaval.ima.mp.ui.connexion.ConnexionFragment
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class InscriptionFragment : Fragment() {
 
+    val imaNetworkCenter = NetworkCenter.buildService(KungryAPI::class.java)
     lateinit var nomEditText: EditText
     lateinit var prenomEditText: EditText
     lateinit var emailEditText: EditText
@@ -22,6 +29,7 @@ class InscriptionFragment : Fragment() {
     lateinit var loginButton : Button
     lateinit var client_id : String
     lateinit var client_secret : String
+    lateinit var myToken : TokenOutput
     lateinit var userInscription : CreateAccountCreate
 
     override fun onCreateView(
@@ -29,6 +37,7 @@ class InscriptionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_inscription, container, false)
+
         loginButton = root.findViewById(R.id.loginButton)
         nomEditText = root.findViewById(R.id.inscription_nomEditText)
         prenomEditText =root.findViewById(R.id.inscription_prenomEditText)
@@ -43,7 +52,8 @@ class InscriptionFragment : Fragment() {
         loginButton.setOnClickListener {
             userInscription = CreateAccountCreate(client_id, client_secret, prenomEditText.text.toString(),
                 nomEditText.text.toString(), emailEditText.text.toString(), pwdEditText.text.toString())
-
+            createAccount(userInscription)
+            Log.d("Test Button", "myToken.access_token")
         }
 
         var pLoginToggle = root.findViewById<Button>(R.id.loginToggle)
@@ -55,5 +65,30 @@ class InscriptionFragment : Fragment() {
         }
         return root
     }
+
+    fun createAccount(userInfo : CreateAccountCreate){
+        imaNetworkCenter.postAccount(userInfo).enqueue(object :
+            Callback<KungryAPI.ContentResponse<TokenOutput>> {
+            override fun onResponse(
+                call: Call<KungryAPI.ContentResponse<TokenOutput>>,
+                response: Response<KungryAPI.ContentResponse<TokenOutput>>
+            ) {
+                if (response.isSuccessful){
+                    response.body()?.content?.let {
+                        myToken = it
+                        Log.d("Token", myToken.access_token)
+                    }
+                }
+            }
+
+            override fun onFailure(
+                call: Call<KungryAPI.ContentResponse<TokenOutput>>,
+                t: Throwable
+            ) {
+                Log.d("ima-demo", "postReviewPhoto onFailure $t")
+            }
+        })
+    }
+
 
 }
