@@ -30,10 +30,7 @@ import ca.ulaval.ima.mp.networking.NetworkCenter
 import ca.ulaval.ima.mp.ui.RestaurantDetailsActivity
 import ca.ulaval.ima.mp.ui.parcelables.ParcelDataAPI
 import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
@@ -65,6 +62,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var blackBitmap: Bitmap? = null
     private lateinit var root : View
     private var thisMarker: Marker? = null
+    private var oldPosition: CameraPosition? = null
 
     lateinit var selectedRestaurant: RestaurantLight
 
@@ -110,13 +108,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         //getLocation()
         //getLocation()
         cardView.setOnClickListener {
-
-
-
             if (selectedRestaurant != null) {
-                //Start other activity to display detailed offer
                 val restaurantDetailsActivity = Intent(context, RestaurantDetailsActivity::class.java)
-                // Gotta do another request for more detailed information
                 val fucku = ParcelDataAPI(selectedRestaurant.id, selectedRestaurant.location.latitude, selectedRestaurant.location.longitude, selectedRestaurant.distance);
                 restaurantDetailsActivity.putExtra("restaurant", fucku)
                 startActivity(restaurantDetailsActivity)
@@ -176,14 +169,23 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             false
         }
 
+        myMap!!.setOnCameraChangeListener { cameraPosition ->
+
+            if (oldPosition != null) {
+                if (oldPosition!!.target.latitude != cameraPosition.target.latitude || oldPosition!!.target.longitude != cameraPosition.target.longitude) {
+                    currentLatLng = cameraPosition.target
+                    getRestaurantNearby(currentLatLng!!.latitude, currentLatLng!!.longitude);
+                }
+            }
+            oldPosition = cameraPosition
+        }
+
         if (currentActivity?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) } != PackageManager.PERMISSION_GRANTED &&
                 currentActivity?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_COARSE_LOCATION) } != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(context, "Activez la localisation GPS de votre appareil", Toast.LENGTH_SHORT).show()
             return
         } else {
-            //If we have permission, we get the location
 
-            //If location is changing, update location
             val locationListener: LocationListener = object : LocationListener {
                 override fun onLocationChanged(location: Location) {
                     locationGps = location
@@ -247,14 +249,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         response.body()?.content?.results?.let {
                             Log.d("Test:", it.size.toString())
                             restaurantLightList = it
-                            Toast.makeText(requireContext(), "nb restaurant proche " + it.size.toString(), Toast.LENGTH_LONG).show();
+                            //Toast.makeText(requireContext(), "nb restaurant proche " + it.size.toString(), Toast.LENGTH_LONG).show();
                             restaurantList = emptyList()
 
-                            //Display the map and zoom near user's location
                             myMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, zoomMap))
 
-
-                            //Convert icon to bitmap to display on the map
 
                             val personIconDrawable = resources.getDrawable(R.drawable.ic_person_pin)
                             val canvas = Canvas()
@@ -269,8 +268,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             canvasA.setBitmap(locationBitmap)
                             pinIconDrawable.setBounds(0, 0, pinIconDrawable.intrinsicWidth, pinIconDrawable.intrinsicHeight)
                             pinIconDrawable.draw(canvasA)
-                            //myMap!!.addMarker(MarkerOptions().position(currentLatLng!!).title("You")))
 
+                            /**
                             myMap?.apply {
                                 addMarker(
                                         MarkerOptions()
@@ -278,7 +277,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                                                 .title("you")
                                                 .icon(BitmapDescriptorFactory.fromBitmap(personBitmap))
                                 )
-                            }
+                            }*/
 
                             restaurantList = it
                             for (item in it) {
