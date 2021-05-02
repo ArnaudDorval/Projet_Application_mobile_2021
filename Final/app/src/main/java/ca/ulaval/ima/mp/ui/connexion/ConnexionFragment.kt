@@ -54,7 +54,10 @@ class ConnexionFragment : Fragment() {
         root = inflater.inflate(R.layout.fragment_connexion, container, false)
         pLoginToggle = root.findViewById(R.id.loginToggle)
         pLoginToggle.setOnClickListener {
-
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(R.id.nav_host_fragment, InscriptionFragment())
+            transaction?.disallowAddToBackStack()
+            transaction?.commit()
         }
 
         //pLoginEmail = root.findViewById<EditText>(R.id.loginEmail)

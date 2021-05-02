@@ -1,7 +1,6 @@
 package ca.ulaval.ima.mp.ui.map
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -12,7 +11,6 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -32,9 +30,7 @@ import ca.ulaval.ima.mp.networking.NetworkCenter
 import ca.ulaval.ima.mp.ui.RestaurantDetailsActivity
 import ca.ulaval.ima.mp.ui.parcelables.ParcelDataAPI
 import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
@@ -63,7 +59,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     var restaurantList: List<RestaurantLight> = listOf()
     private var locationBitmap: Bitmap? = null
     private var personBitmap: Bitmap? = null
+    private var blackBitmap: Bitmap? = null
     private lateinit var root : View
+    private var thisMarker: Marker? = null
+    private var oldPosition: CameraPosition? = null
 
     lateinit var selectedRestaurant: RestaurantLight
 
@@ -110,9 +109,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         //getLocation()
         cardView.setOnClickListener {
             if (selectedRestaurant != null) {
-                //Start other activity to display detailed offer
                 val restaurantDetailsActivity = Intent(context, RestaurantDetailsActivity::class.java)
-                // Gotta do another request for more detailed information
                 val fucku = ParcelDataAPI(selectedRestaurant.id, selectedRestaurant.location.latitude, selectedRestaurant.location.longitude, selectedRestaurant.distance);
                 restaurantDetailsActivity.putExtra("restaurant", fucku)
                 startActivity(restaurantDetailsActivity)
@@ -131,84 +128,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    @SuppressLint("MissingPermission")
-    private fun getLocation() {
-
-        hasGPS = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        hasNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-        if (hasGPS || hasNetwork){
-            if(hasGPS){
-                Log.d("Validation GPS : ", "Has GPS")
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0f, object : LocationListener {
-                    override fun onLocationChanged(location: Location) {
-                        if (location != null) {
-                            locationGps = location
-                            Log.d("Latidude GPS : ", locationGps!!.latitude.toString())
-                            Log.d("Logitude GPS : ", locationGps!!.longitude.toString())
-                            getRestaurantNearby(locationGps!!.latitude, locationGps!!.longitude);
-                        }
-                    }
-
-                    override fun onProviderEnabled(provider: String) {}
-
-                    override fun onProviderDisabled(provider: String) {}
-
-                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
-
-                })
-                val localGpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                if (localGpsLocation!=null){
-                    locationGps = localGpsLocation
-                }
-            }
-
-            if(hasNetwork){
-                Log.d("Validation Network : ", "Has NetWork")
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0f, object : LocationListener {
-                    override fun onLocationChanged(location: Location) {
-                        if (location != null) {
-                            locationNetWork = location
-                            currentLatLng = LatLng(location.latitude, location.longitude)
-
-                            if (currentActivity is MainActivity) {
-                                (currentActivity as MainActivity).setCurrentLatLng(currentLatLng)
-                            }
-
-                            getRestaurantNearby(locationNetWork!!.latitude, locationNetWork!!.longitude);
-                        }
-
-
-                    }
-
-                    override fun onProviderEnabled(provider: String) {}
-
-                    override fun onProviderDisabled(provider: String) {}
-
-                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
-
-                })
-                val localNetworkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-                if (localNetworkLocation!=null){
-                    locationNetWork = localNetworkLocation
-                }
-            }
-            if (locationGps != null && locationNetWork != null){
-                if (locationGps!!.accuracy > locationNetWork!!.accuracy){
-                    Log.d("Latidude NetWork : ", locationNetWork!!.latitude.toString())
-                    Log.d("Logitude NetWork : ", locationNetWork!!.longitude.toString())
-                    getRestaurantNearby(locationNetWork!!.latitude, locationNetWork!!.longitude);
-                }else{
-                    Log.d("Latidude GPS : ", locationGps!!.latitude.toString())
-                    Log.d("Logitude GPS : ", locationGps!!.longitude.toString())
-                    getRestaurantNearby(locationNetWork!!.latitude, locationNetWork!!.longitude);
-                }
-
-            }
-        }else{
-            startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-        }
-    }
-
     override fun onMapReady(p0: GoogleMap?) {
 
         MapsInitializer.initialize(context)
@@ -222,7 +141,21 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             var selectedRestaurantId = 0
             unselectedLayout.visibility = View.GONE
             selectedLayout.visibility = View.VISIBLE
+            val blackDrawable = resources.getDrawable(R.drawable.ic_icone_pin_noer)
+            val canvasB = Canvas()
+            blackBitmap = Bitmap.createBitmap(blackDrawable.intrinsicWidth, blackDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+            canvasB.setBitmap(blackBitmap)
+            blackDrawable.setBounds(0, 0, blackDrawable.intrinsicWidth, blackDrawable.intrinsicHeight)
+            blackDrawable.draw(canvasB)
 
+            if (thisMarker != null && thisMarker !== marker) {
+                thisMarker!!.setIcon(BitmapDescriptorFactory.fromBitmap(locationBitmap))
+            }
+
+            if (marker != thisMarker) {
+                marker.setIcon(BitmapDescriptorFactory.fromBitmap(blackBitmap))
+                thisMarker = marker
+            }
 
             for (item in restaurantList){
                 if(item.name == marker.title){
@@ -236,14 +169,23 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             false
         }
 
+        myMap!!.setOnCameraChangeListener { cameraPosition ->
+
+            if (oldPosition != null) {
+                if (oldPosition!!.target.latitude != cameraPosition.target.latitude || oldPosition!!.target.longitude != cameraPosition.target.longitude) {
+                    currentLatLng = cameraPosition.target
+                    getRestaurantNearby(currentLatLng!!.latitude, currentLatLng!!.longitude);
+                }
+            }
+            oldPosition = cameraPosition
+        }
+
         if (currentActivity?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) } != PackageManager.PERMISSION_GRANTED &&
                 currentActivity?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_COARSE_LOCATION) } != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(context, "Activez la localisation GPS de votre appareil", Toast.LENGTH_SHORT).show()
             return
         } else {
-            //If we have permission, we get the location
 
-            //If location is changing, update location
             val locationListener: LocationListener = object : LocationListener {
                 override fun onLocationChanged(location: Location) {
                     locationGps = location
@@ -307,29 +249,27 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         response.body()?.content?.results?.let {
                             Log.d("Test:", it.size.toString())
                             restaurantLightList = it
-                            Toast.makeText(requireContext(), "nb restaurant proche " + it.size.toString(), Toast.LENGTH_LONG).show();
+                            //Toast.makeText(requireContext(), "nb restaurant proche " + it.size.toString(), Toast.LENGTH_LONG).show();
                             restaurantList = emptyList()
 
-                            //Display the map and zoom near user's location
                             myMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, zoomMap))
 
 
-                            //Convert icon to bitmap to display on the map
-
-                            val pinIconDrawable = resources.getDrawable(R.drawable.ic_person_pin)
+                            val personIconDrawable = resources.getDrawable(R.drawable.ic_person_pin)
                             val canvas = Canvas()
-                            personBitmap = Bitmap.createBitmap(pinIconDrawable.intrinsicWidth, pinIconDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+                            personBitmap = Bitmap.createBitmap(personIconDrawable.intrinsicWidth, personIconDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
                             canvas.setBitmap(personBitmap)
-                            pinIconDrawable.setBounds(0, 0, pinIconDrawable.intrinsicWidth, pinIconDrawable.intrinsicHeight)
-                            pinIconDrawable.draw(canvas)
+                            personIconDrawable.setBounds(0, 0, personIconDrawable.intrinsicWidth, personIconDrawable.intrinsicHeight)
+                            personIconDrawable.draw(canvas)
 
-                            //val pinIconDrawable = resources.getDrawable(R.drawable.ic_person_pin)
-                            //val canvas = Canvas()
-                            //personBitmap = Bitmap.createBitmap(pinIconDrawable.intrinsicWidth, pinIconDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
-                            //canvas.setBitmap(personBitmap)
-                            //pinIconDrawable.setBounds(0, 0, pinIconDrawable.intrinsicWidth, pinIconDrawable.intrinsicHeight)
-                            //pinIconDrawable.draw(canvas)
-                            //myMap!!.addMarker(MarkerOptions().position(currentLatLng!!).title("You")))
+                            val pinIconDrawable = resources.getDrawable(R.drawable.ic_icone_pin)
+                            val canvasA = Canvas()
+                            locationBitmap = Bitmap.createBitmap(pinIconDrawable.intrinsicWidth, pinIconDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+                            canvasA.setBitmap(locationBitmap)
+                            pinIconDrawable.setBounds(0, 0, pinIconDrawable.intrinsicWidth, pinIconDrawable.intrinsicHeight)
+                            pinIconDrawable.draw(canvasA)
+
+                            /**
                             myMap?.apply {
                                 addMarker(
                                         MarkerOptions()
@@ -337,7 +277,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                                                 .title("you")
                                                 .icon(BitmapDescriptorFactory.fromBitmap(personBitmap))
                                 )
-                            }
+                            }*/
 
                             restaurantList = it
                             for (item in it) {
@@ -349,7 +289,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                                             MarkerOptions()
                                                     .position(newLatlng)
                                                     .title(item.name)
-                                                    .icon(BitmapDescriptorFactory.defaultMarker())
+                                                    .icon(BitmapDescriptorFactory.fromBitmap(locationBitmap))
                                     )
                                 }
                             }

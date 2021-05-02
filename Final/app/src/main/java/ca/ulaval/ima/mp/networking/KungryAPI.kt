@@ -15,7 +15,7 @@ interface KungryAPI {
         const val BASE_URL: String = "https://kungry.ca"
     }
 
-    @Headers("Authorization: Bearer XXXXXX")
+    //@Headers("Authorization: Bearer XXXXXX")
     @POST(API_V1 + "account/")
     fun postAccount(@Body createAccountCreate: CreateAccountCreate): Call<ContentResponse<TokenOutput>>
 

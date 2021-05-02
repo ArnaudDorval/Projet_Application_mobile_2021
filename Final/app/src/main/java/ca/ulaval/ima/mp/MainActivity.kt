@@ -17,6 +17,8 @@ class MainActivity : AppCompatActivity() {
 
     private var currentLatLng: LatLng? = null
     private var myToken: Token?=null
+    private var client_id : String = " STO4WED2NTDDxjLs8ODios5M15HwsrRlydsMa1t0"
+    private var client_secret : String = "YOVWGpjSnHd5AYDxGBR2CIB09ZYM1OPJGnH3ijkKwrUMVvwLprUmLf6fxku06ClUKTAEl5AeZN36V9QYBYvTtrLMrtUtXVuXOGWleQGYyApC2a469l36TdlXFqAG1tpK"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,5 +57,13 @@ class MainActivity : AppCompatActivity() {
 
     fun getCurrentToken(): Token? {
         return myToken
+    }
+
+    fun getClientId(): String {
+        return client_id
+    }
+
+    fun getClientSecret(): String {
+        return client_secret
     }
 }
