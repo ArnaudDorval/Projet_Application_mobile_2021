@@ -67,6 +67,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     lateinit var selectedRestaurant: RestaurantLight
 
     var restaurantLightList : List<RestaurantLight> = emptyList()
+    var firstmove: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -194,6 +195,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
 
                     currentLatLng = LatLng(location.latitude, location.longitude)
+                    if(firstmove == 0 ){
+                        myMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, zoomMap))
+                        firstmove++;
+                    }
+
 
                     if (currentActivity is MainActivity) {
                         if(currentLatLng != null){
@@ -252,8 +258,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             //Toast.makeText(requireContext(), "nb restaurant proche " + it.size.toString(), Toast.LENGTH_LONG).show();
                             restaurantList = emptyList()
 
-                            myMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, zoomMap))
-
 
                             val personIconDrawable = resources.getDrawable(R.drawable.ic_person_pin)
                             val canvas = Canvas()
@@ -294,7 +298,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                                 }
                             }
                         }
+                        //val tLat = LatLng(latitude, longitude)
+                        //myMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, zoomMap))
                     }
+
+
                 }
 
                 override fun onFailure(
