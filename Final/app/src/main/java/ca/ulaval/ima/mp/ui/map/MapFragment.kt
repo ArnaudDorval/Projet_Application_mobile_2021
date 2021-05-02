@@ -6,6 +6,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -20,14 +22,22 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import ca.ulaval.ima.mp.MainActivity
 import ca.ulaval.ima.mp.R
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.MapsInitializer
-import com.google.android.gms.maps.OnMapReadyCallback
+import ca.ulaval.ima.mp.model.PaginatedResultSerializer
+import ca.ulaval.ima.mp.model.RestaurantLight
+import ca.ulaval.ima.mp.networking.KungryAPI
+import ca.ulaval.ima.mp.networking.NetworkCenter
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MapFragment : Fragment(), OnMapReadyCallback {
+
+    val imaNetworkCenter = NetworkCenter.buildService(KungryAPI::class.java)
 
     private var mapView: MapView? = null
     private var myMap: GoogleMap? = null
@@ -43,8 +53,12 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var currentActivity: Activity? = null
     private var currentLatLng: LatLng? = null
 
+    var zoomMap = 12.0f
+    private var locationBitmap: Bitmap? = null
+    private var personBitmap: Bitmap? = null
     private lateinit var root : View
 
+    var restaurantLightList : List<RestaurantLight> = emptyList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -58,7 +72,20 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         selectedLayout.setVisibility(View.GONE)
         locationManager = getActivity()?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        /**
+        val pinIcon = resources.getDrawable(R.drawable.ic_icone_pin)
+        val canvasLocation = Canvas()
+        locationBitmap = Bitmap.createBitmap(pinIcon.intrinsicWidth, pinIcon.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        canvasLocation.setBitmap(locationBitmap)
+        pinIcon.setBounds(0, 0, pinIcon.intrinsicWidth, pinIcon.intrinsicHeight)
+        pinIcon.draw(canvasLocation)
 
+        val personIcon = resources.getDrawable(R.drawable.ic_person_pin)
+        val canvasperson = Canvas()
+        personBitmap = Bitmap.createBitmap(personIcon.intrinsicWidth, personIcon.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        canvasperson.setBitmap(personBitmap)
+        personIcon.setBounds(0, 0, personIcon.intrinsicWidth, personIcon.intrinsicHeight)
+        personIcon.draw(canvasperson)*/
         /**
         if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED &&
@@ -70,7 +97,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             Toast.makeText(requireContext(), "get permission map sauce", Toast.LENGTH_LONG).show();
         }*/
 
-        getLocation()
+        //getLocation()
         //getLocation()
 
         return root
@@ -100,6 +127,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                             locationGps = location
                             Log.d("Latidude GPS : ", locationGps!!.latitude.toString())
                             Log.d("Logitude GPS : ", locationGps!!.longitude.toString())
+                            getRestaurantNearby(locationGps!!.latitude, locationGps!!.longitude);
                         }
                     }
 
@@ -128,7 +156,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                                 (currentActivity as MainActivity).setCurrentLatLng(currentLatLng)
                             }
 
-                            //getNearbyRestaurant(currentLatLng?.latitude, currentLatLng?.longitude)
+                            getRestaurantNearby(locationNetWork!!.latitude, locationNetWork!!.longitude);
                         }
 
 
@@ -150,9 +178,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 if (locationGps!!.accuracy > locationNetWork!!.accuracy){
                     Log.d("Latidude NetWork : ", locationNetWork!!.latitude.toString())
                     Log.d("Logitude NetWork : ", locationNetWork!!.longitude.toString())
+                    getRestaurantNearby(locationNetWork!!.latitude, locationNetWork!!.longitude);
                 }else{
                     Log.d("Latidude GPS : ", locationGps!!.latitude.toString())
                     Log.d("Logitude GPS : ", locationGps!!.longitude.toString())
+                    getRestaurantNearby(locationNetWork!!.latitude, locationNetWork!!.longitude);
                 }
 
             }
@@ -178,8 +208,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             false
         }
 
-        if (getActivity()?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) } != PackageManager.PERMISSION_GRANTED &&
-                getActivity()?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_COARSE_LOCATION) } != PackageManager.PERMISSION_GRANTED) {
+        if (currentActivity?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) } != PackageManager.PERMISSION_GRANTED &&
+                currentActivity?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_COARSE_LOCATION) } != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(context, "Activez la localisation GPS de votre appareil", Toast.LENGTH_SHORT).show()
             return
         } else {
@@ -187,8 +217,21 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
             //If location is changing, update location
             val locationListener: LocationListener = object : LocationListener {
-                override fun onLocationChanged(myLocation: Location) {
-                    //update location informations
+                override fun onLocationChanged(location: Location) {
+                    locationGps = location
+                    Log.d("Latidude GPS : ", locationGps!!.latitude.toString())
+                    Log.d("Logitude GPS : ", locationGps!!.longitude.toString())
+
+
+                    currentLatLng = LatLng(location.latitude, location.longitude)
+
+                    if (currentActivity is MainActivity) {
+                        if(currentLatLng != null){
+                            (currentActivity as MainActivity).setCurrentLatLng(currentLatLng)
+                        }
+                    }
+
+                    getRestaurantNearby(locationGps!!.latitude, locationGps!!.longitude);
                 }
 
                 override fun onProviderEnabled(provider: String) {}
@@ -203,10 +246,88 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             //Get phone location
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10f, locationListener)
 
+            if(locationGps != null){
+                getRestaurantNearby(locationGps!!.latitude, locationGps!!.longitude);
+
+                currentLatLng = LatLng(locationGps!!.latitude, locationGps!!.longitude)
+
+                if (currentActivity is MainActivity) {
+                    if(currentLatLng != null){
+                        (currentActivity as MainActivity).setCurrentLatLng(currentLatLng)
+                    }
+
+                }
+            }
+
 
         }
 
     }
 
 
+    fun getRestaurantNearby(latitude: Double, longitude: Double){
+
+
+            imaNetworkCenter.getRestaurantSearchNoText(1, 16, latitude, longitude, 10).enqueue(object :
+                    Callback<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>> {
+
+                override fun onResponse(
+                        call: Call<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>>,
+                        response: Response<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.content?.results?.let {
+                            Log.d("Test:", it.size.toString())
+                            restaurantLightList = it
+                            Toast.makeText(requireContext(), "nb restaurant proche " + it.size.toString(), Toast.LENGTH_LONG).show();
+
+
+                            //Display the map and zoom near user's location
+                            myMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, zoomMap))
+
+                            //myMap!!.addMarker(MarkerOptions().position(currentLatLng!!).title("You")))
+                            myMap?.apply {
+                                addMarker(
+                                        MarkerOptions()
+                                                .position(currentLatLng!!)
+                                                .title("you")
+                                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                )
+                            }
+
+
+                            for (item in it) {
+                                println(item.name)
+
+                                val newLatlng = LatLng(item.location.latitude, item.location.longitude)
+                                myMap?.apply {
+                                    addMarker(
+                                            MarkerOptions()
+                                                    .position(newLatlng)
+                                                    .title(item.name)
+                                                    .icon(BitmapDescriptorFactory.defaultMarker())
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>>,
+                    t: Throwable
+            ) {
+                    Log.d("ima-demo", "listRestaurants Failure ${t.message}")
+                }
+            }
+            )
+    }
+
+
+
+
 }
+
+//
+//46.782995
+//D/Logitude GPS :: -71.28606833333333

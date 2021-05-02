@@ -49,6 +49,13 @@ interface KungryAPI {
                                   @Query("radius") radius:Int,
                                   @Query("text") text:String): Call<ContentResponse<PaginatedResultSerializer<RestaurantLight>>>
 
+    @GET(API_V1 + "restaurant/search/")
+    fun getRestaurantSearchNoText(@Query("page") page:Int,
+                            @Query("page_size") page_size:Int,
+                            @Query("latitude") latitude:Number,
+                            @Query("longitude") longitude:Number,
+                            @Query("radius") radius:Int) : Call<ContentResponse<PaginatedResultSerializer<RestaurantLight>>>
+
 
     @GET(API_V1 + "restaurant/{id}/")
     fun getRestaurantById(@Path("id") restaurant_id: Int,
