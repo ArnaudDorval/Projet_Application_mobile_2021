@@ -80,7 +80,7 @@
             android:layout_height="48dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/connexion_logina"
-            android:drawableLeft="@drawable/ic_np_password_2630646_000000"
+            android:drawableLeft="@drawable/ic_np_password"
             android:drawablePadding="12dp"
             android:ems="10"
             android:fontFamily="@font/sf_ui_display_light"
