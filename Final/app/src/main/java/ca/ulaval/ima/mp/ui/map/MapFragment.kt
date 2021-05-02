@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -28,6 +29,8 @@ import ca.ulaval.ima.mp.model.PaginatedResultSerializer
 import ca.ulaval.ima.mp.model.RestaurantLight
 import ca.ulaval.ima.mp.networking.KungryAPI
 import ca.ulaval.ima.mp.networking.NetworkCenter
+import ca.ulaval.ima.mp.ui.RestaurantDetailsActivity
+import ca.ulaval.ima.mp.ui.parcelables.ParcelDataAPI
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -61,6 +64,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private var locationBitmap: Bitmap? = null
     private var personBitmap: Bitmap? = null
     private lateinit var root : View
+
+    lateinit var selectedRestaurant: RestaurantLight
 
     var restaurantLightList : List<RestaurantLight> = emptyList()
 
@@ -103,7 +108,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         //getLocation()
         //getLocation()
-
+        cardView.setOnClickListener {
+            if (selectedRestaurant != null) {
+                //Start other activity to display detailed offer
+                val restaurantDetailsActivity = Intent(context, RestaurantDetailsActivity::class.java)
+                // Gotta do another request for more detailed information
+                val fucku = ParcelDataAPI(selectedRestaurant.id, selectedRestaurant.location.latitude, selectedRestaurant.location.longitude, selectedRestaurant.distance);
+                restaurantDetailsActivity.putExtra("restaurant", fucku)
+                startActivity(restaurantDetailsActivity)
+            }
+        }
         return root
     }
 
@@ -209,16 +223,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             unselectedLayout.visibility = View.GONE
             selectedLayout.visibility = View.VISIBLE
 
-            //val iconDrawable = requireContext().resources.getDrawable(R.drawable.ic_training,context!!.theme)
-            //val canvas = Canvas()
-            //val iconSelectedBitmap = Bitmap.createBitmap(iconDrawable.intrinsicWidth, iconDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
-
-
-            var selectedRestaurant = 0
 
             for (item in restaurantList){
                 if(item.name == marker.title){
-                    selectedRestaurant = item.id
+                    selectedRestaurant = item
                     displayRestaurant(item);
                     break
                 }
@@ -308,14 +316,26 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
                             //Convert icon to bitmap to display on the map
 
+                            val pinIconDrawable = resources.getDrawable(R.drawable.ic_person_pin)
+                            val canvas = Canvas()
+                            personBitmap = Bitmap.createBitmap(pinIconDrawable.intrinsicWidth, pinIconDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+                            canvas.setBitmap(personBitmap)
+                            pinIconDrawable.setBounds(0, 0, pinIconDrawable.intrinsicWidth, pinIconDrawable.intrinsicHeight)
+                            pinIconDrawable.draw(canvas)
 
+                            //val pinIconDrawable = resources.getDrawable(R.drawable.ic_person_pin)
+                            //val canvas = Canvas()
+                            //personBitmap = Bitmap.createBitmap(pinIconDrawable.intrinsicWidth, pinIconDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+                            //canvas.setBitmap(personBitmap)
+                            //pinIconDrawable.setBounds(0, 0, pinIconDrawable.intrinsicWidth, pinIconDrawable.intrinsicHeight)
+                            //pinIconDrawable.draw(canvas)
                             //myMap!!.addMarker(MarkerOptions().position(currentLatLng!!).title("You")))
                             myMap?.apply {
                                 addMarker(
                                         MarkerOptions()
                                                 .position(currentLatLng!!)
                                                 .title("you")
-                                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                                .icon(BitmapDescriptorFactory.fromBitmap(personBitmap))
                                 )
                             }
 

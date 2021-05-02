@@ -18,6 +18,7 @@ import ca.ulaval.ima.mp.model.RestaurantLight
 import ca.ulaval.ima.mp.networking.KungryAPI
 import ca.ulaval.ima.mp.networking.NetworkCenter
 import ca.ulaval.ima.mp.ui.RestaurantDetailsActivity
+import ca.ulaval.ima.mp.ui.parcelables.ParcelDataAPI
 import com.google.android.gms.maps.model.LatLng
 import com.squareup.picasso.Picasso
 import retrofit2.Call
@@ -48,8 +49,13 @@ class ListeFragment : Fragment() {
             val item = adapter.getItemAtPosition(position) as RestaurantLight
             Log.d("demo", "selected Brand:${item.name}, selected Id:${item.id}")
             val intent = Intent(this.context, RestaurantDetailsActivity::class.java)
-            //    intent.putExtra("id", item.id)
-            //   startActivity(intent)
+            currentLatLng = (activity as MainActivity).getCurrentLatLng()
+
+            if(currentLatLng != null){
+                var objectID = ParcelDataAPI(item.id, currentLatLng!!.latitude, currentLatLng!!.latitude, item.distance)
+                intent.putExtra("restaurant", objectID)
+                startActivity(intent)
+            }
         }
         return root
     }
