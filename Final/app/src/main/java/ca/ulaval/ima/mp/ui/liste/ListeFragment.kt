@@ -54,9 +54,6 @@ class ListeFragment : Fragment() {
             intent.putExtra("restoID", objectID)
             startActivity(intent)
         }
-
-
-
         return root
     }
 

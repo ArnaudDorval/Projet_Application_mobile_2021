@@ -1,5 +1,6 @@
 package ca.ulaval.ima.mp.ui.connexion
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,9 @@ import ca.ulaval.ima.mp.model.AccountLogin
 import ca.ulaval.ima.mp.model.TokenOutput
 import ca.ulaval.ima.mp.networking.KungryAPI
 import ca.ulaval.ima.mp.networking.NetworkCenter
+import ca.ulaval.ima.mp.ui.RestaurantDetailsActivity
+import ca.ulaval.ima.mp.ui.inscription.InscriptionFragment
+import ca.ulaval.ima.mp.ui.parcelables.ParcelDataAPI
 import ca.ulaval.ima.mp.utils.Token
 
 import retrofit2.Call
@@ -32,7 +36,7 @@ class ConnexionFragment : Fragment() {
     private var pLoginButton: Button? = null
     private  var pSignupButton:android.widget.Button? = null
     private  var pSignupToggle:android.widget.Button? = null
-    private var pLoginToggle:android.widget.Button? = null
+    lateinit var pLoginToggle : Button
 
     private val token: Token ?= null
     private lateinit var root : View
@@ -48,6 +52,10 @@ class ConnexionFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         root = inflater.inflate(R.layout.fragment_connexion, container, false)
+        pLoginToggle = root.findViewById(R.id.loginToggle)
+        pLoginToggle.setOnClickListener {
+
+        }
 
         //pLoginEmail = root.findViewById<EditText>(R.id.loginEmail)
         //pLoginPassword = root.findViewById<EditText>(R.id.loginPassword)

@@ -16,7 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity() {
 
     private var currentLatLng: LatLng? = null
-    private val token: Token?=null
+    private var myToken: Token?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,5 +47,13 @@ class MainActivity : AppCompatActivity() {
 
     fun getCurrentLatLng(): LatLng? {
         return currentLatLng
+    }
+
+    fun setCurrentToken(token: Token?) {
+        myToken = token
+    }
+
+    fun getCurrentToken(): Token? {
+        return myToken
     }
 }
