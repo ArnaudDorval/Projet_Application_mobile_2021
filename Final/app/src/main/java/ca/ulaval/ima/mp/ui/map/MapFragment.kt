@@ -25,7 +25,6 @@ import androidx.fragment.app.Fragment
 import ca.ulaval.ima.mp.MainActivity
 import ca.ulaval.ima.mp.R
 import ca.ulaval.ima.mp.model.PaginatedResultSerializer
-import ca.ulaval.ima.mp.model.Restaurant
 import ca.ulaval.ima.mp.model.RestaurantLight
 import ca.ulaval.ima.mp.networking.KungryAPI
 import ca.ulaval.ima.mp.networking.NetworkCenter
@@ -37,7 +36,6 @@ import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
 
 
 class MapFragment : Fragment(), OnMapReadyCallback {
