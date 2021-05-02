@@ -25,14 +25,10 @@ class CommentairesActivity : AppCompatActivity() {
     val imaNetworkCenter = NetworkCenter.buildService(KungryAPI::class.java)
     var reviews : List<Review> = emptyList()
     lateinit var lv: ListView
-    override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?
-    ): View?  {
+    override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
-        val root = inflater.inflate(R.layout.activity_commentaires, container, false)
         setContentView(R.layout.activity_commentaires)
-        lv = root.findViewById(R.id.restaurantDetails_nestedScrollView)
-
-        return root
+        lv = findViewById(R.id.restaurantDetails_nestedScrollView)
     }
     fun getReviews(){
         imaNetworkCenter.getRestaurantReviewById(1).enqueue(object :
