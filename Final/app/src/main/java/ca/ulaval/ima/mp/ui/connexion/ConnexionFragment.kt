@@ -1,5 +1,6 @@
 package ca.ulaval.ima.mp.ui.connexion
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import ca.ulaval.ima.mp.MainActivity
 import ca.ulaval.ima.mp.R
 import ca.ulaval.ima.mp.model.AccountLogin
 import ca.ulaval.ima.mp.model.TokenOutput
@@ -16,6 +18,7 @@ import ca.ulaval.ima.mp.networking.KungryAPI
 import ca.ulaval.ima.mp.networking.NetworkCenter
 import ca.ulaval.ima.mp.ui.RestaurantDetailsActivity
 import ca.ulaval.ima.mp.ui.inscription.InscriptionFragment
+import ca.ulaval.ima.mp.ui.moncompte.MonCompteFragment
 import ca.ulaval.ima.mp.ui.parcelables.ParcelDataAPI
 import ca.ulaval.ima.mp.utils.Token
 
@@ -27,8 +30,9 @@ import retrofit2.Response
 
 class ConnexionFragment : Fragment() {
     val imaNetworkCenter = NetworkCenter.buildService(KungryAPI::class.java)
-    private var pLoginEmail: EditText? = null
-    private  var pLoginPassword:EditText? = null
+    lateinit var myToken : TokenOutput
+    lateinit var pLoginEmail: EditText
+    lateinit var pLoginPassword:EditText
     private  var pSignupFirstName:EditText? = null
     private  var pSignupLastName:EditText? = null
     private  var pSignupEmail:EditText? = null
@@ -37,7 +41,10 @@ class ConnexionFragment : Fragment() {
     private  var pSignupButton:android.widget.Button? = null
     private  var pSignupToggle:android.widget.Button? = null
     lateinit var pLoginToggle : Button
-    private var accountLogin : AccountLogin = AccountLogin("STO4WED2NTDDxjLs8ODios5M15HwsrRlydsMa1t0", "YOVWGpjSnHd5AYDxGBR2CIB09ZYM1OPJGnH3ijkKwrUMVvwLprUmLf6fxku06ClUKTAEl5AeZN36V9QYBYvTtrLMrtUtXVuXOGWleQGYyApC2a469l36TdlXFqAG1tpK", "enrick@bambou.ca", "enrick1234567")
+    private var currentActivity: Activity? = null
+    lateinit var accountLogin : AccountLogin
+    lateinit var client_id : String
+    lateinit var client_secret : String
 
     private val token: Token ?= null
     private lateinit var root : View
@@ -56,6 +63,16 @@ class ConnexionFragment : Fragment() {
         pLoginToggle = root.findViewById(R.id.loginToggle)
         pLoginButton = root.findViewById(R.id.loginButton)
 
+        pLoginEmail = root.findViewById(R.id.loginEmail)
+        pLoginPassword = root.findViewById(R.id.loginPassword)
+        pLoginButton = root.findViewById<Button>(R.id.loginButton)
+        pLoginToggle = root.findViewById<Button>(R.id.loginToggle)
+
+        client_id = (activity as MainActivity).getClientId()
+        client_secret = (activity as MainActivity).getClientSecret()
+
+        currentActivity = activity
+
         pLoginToggle.setOnClickListener {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.replace(R.id.nav_host_fragment, InscriptionFragment())
@@ -64,18 +81,10 @@ class ConnexionFragment : Fragment() {
         }
 
         pLoginButton.setOnClickListener {
+            accountLogin = AccountLogin(client_id, client_secret, pLoginEmail.text.toString(), pLoginPassword.text.toString())
             getToken(accountLogin)
         }
-        //pLoginEmail = root.findViewById<EditText>(R.id.loginEmail)
-        //pLoginPassword = root.findViewById<EditText>(R.id.loginPassword)
-        //pLoginButton = root.findViewById<Button>(R.id.loginButton)
-        //pLoginToggle = root.findViewById<Button>(R.id.loginToggle)
-        //pSignupToggle = root.findViewById<Button>(R.id.signupToggle)
-        //pSignupFirstName = root.findViewById<EditText>(R.id.signupFirstName)
-        //pSignupLastName = root.findViewById<EditText>(R.id.signupLastName)
-        //pSignupEmail = root.findViewById<EditText>(R.id.signupEmail)
-        //pSignupPassword = root.findViewById<EditText>(R.id.signupPassword)
-        //pSignupButton = root.findViewById<Button>(R.id.signupButton)
+
 
 
         return root
@@ -90,7 +99,17 @@ class ConnexionFragment : Fragment() {
             ) {
                 if (response.isSuccessful){
                     response.body()?.content?.let {
-                        //token = it.access_token
+                        myToken = it
+                        Log.d("Token", myToken.access_token)
+                        if (currentActivity is MainActivity) {
+                            if(myToken!= null){
+                                (currentActivity as MainActivity).setCurrentToken(myToken)
+                            }
+                        }
+                        val transaction = activity?.supportFragmentManager?.beginTransaction()
+                        transaction?.replace(R.id.nav_host_fragment, MonCompteFragment())
+                        transaction?.disallowAddToBackStack()
+                        transaction?.commit()
                     }
                 }
                 Log.d("ima-demo", "postReviewPhoto onResponse $token")
