@@ -108,7 +108,6 @@ class ConnexionFragment : Fragment() {
                         }
                         val transaction = activity?.supportFragmentManager?.beginTransaction()
                         transaction?.replace(R.id.nav_host_fragment, MonCompteFragment())
-                        transaction?.disallowAddToBackStack()
                         transaction?.commit()
                     }
                 }
