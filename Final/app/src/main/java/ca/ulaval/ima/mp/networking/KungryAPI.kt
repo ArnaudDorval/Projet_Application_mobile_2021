@@ -15,7 +15,7 @@ interface KungryAPI {
         const val BASE_URL: String = "https://kungry.ca"
     }
 
-    //@Headers("Authorization: Bearer XXXXXX")
+
     @POST(API_V1 + "account/")
     fun postAccount(@Body createAccountCreate: CreateAccountCreate): Call<ContentResponse<TokenOutput>>
 
@@ -23,7 +23,7 @@ interface KungryAPI {
     fun postAccountLogin(@Body accountLogin: AccountLogin): Call<ContentResponse<TokenOutput>>
 
     @GET(API_V1 + "account/me/")
-    fun getAccountMe(): Call<ContentResponse<Account>>
+    fun getAccountMe(@Header("Authorization") token : String) : Call<ContentResponse<Account>>
 
     @POST(API_V1 + "account/refresh_token/")
     fun postAccountRefreshToken(@Body RefreshTokenInput: RefreshTokenInput): Call<ContentResponse<TokenOutput>>

@@ -17,7 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity() {
 
     private var currentLatLng: LatLng? = null
-    private var myToken: TokenOutput?=null
+    private var myToken: TokenOutput? = null
     private var client_id : String = " STO4WED2NTDDxjLs8ODios5M15HwsrRlydsMa1t0"
     private var client_secret : String = "YOVWGpjSnHd5AYDxGBR2CIB09ZYM1OPJGnH3ijkKwrUMVvwLprUmLf6fxku06ClUKTAEl5AeZN36V9QYBYvTtrLMrtUtXVuXOGWleQGYyApC2a469l36TdlXFqAG1tpK"
 

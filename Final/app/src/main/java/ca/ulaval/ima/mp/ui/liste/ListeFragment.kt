@@ -60,36 +60,6 @@ class ListeFragment : Fragment() {
         return root
     }
 
-    fun getListOfRestaurant() {
-        imaNetworkCenter.getListRestaurant(1, 5).enqueue(object :
-            Callback<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>> {
-            override fun onResponse(
-                call: Call<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>>,
-                response: Response<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>>
-            ) {
-                if (response.isSuccessful) {
-                    response.body()?.content?.results?.let {
-                        Log.d("Test:", it.size.toString())
-                        restaurantLightList = it
-                        val adapter = RestaurantsListAdapter(
-                            requireContext(),
-                            R.layout.restaurantlight_list,
-                            it
-                        )
-                        lv.adapter = adapter
-                    }
-                }
-            }
-
-            override fun onFailure(
-                call: Call<KungryAPI.ContentResponse<PaginatedResultSerializer<RestaurantLight>>>,
-                t: Throwable
-            ) {
-                Log.d("ima-demo", "listRestaurants Failure ${t.message}")
-            }
-        }
-        )
-    }
 
     fun getRestaurantNearby(latitude: Double, longitude: Double){
         imaNetworkCenter.getRestaurantSearchNoText(1, 16, latitude, longitude, 10).enqueue(object :

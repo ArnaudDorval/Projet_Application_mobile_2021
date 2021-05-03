@@ -49,6 +49,7 @@ class InscriptionFragment : Fragment() {
         prenomEditText =root.findViewById(R.id.inscription_prenomEditText)
         emailEditText = root.findViewById(R.id.loginEmail)
         pwdEditText = root.findViewById(R.id.loginPassword)
+        currentActivity = activity
 
         client_id = (activity as MainActivity).getClientId()
         client_secret = (activity as MainActivity).getClientSecret()
@@ -102,10 +103,5 @@ class InscriptionFragment : Fragment() {
                 Log.d("ima-demo", "postReviewPhoto onFailure $t")
             }
         })
-
-
     }
-
-
-
 }
